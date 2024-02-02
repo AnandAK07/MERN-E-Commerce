@@ -1,6 +1,9 @@
 import './App.css';
+import { Checkout } from './components/checkout/Checkout';
 import { Navbar } from './components/navbar/Navbar';
-import { ProductDetails } from './components/product/ProductDetails';
+import { CheckoutPage } from './pages/CheckoutPage';
+
+import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { ProductPage } from './pages/ProductPage';
 
 function App() {
@@ -8,7 +11,9 @@ function App() {
     <div className="">
       <Navbar />
       {/* <ProductPage /> */}
-      <ProductDetails />
+      {/* <ProductDetailsPage /> */}
+      {/* <Checkout/> */}
+      <CheckoutPage />
     </div>
   );
 }
