@@ -5,6 +5,7 @@ import { CheckoutPage } from './pages/CheckoutPage';
 
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { ProductPage } from './pages/ProductPage';
+import { AllRoutes } from './routes/AllRoutes';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       {/* <ProductPage /> */}
       {/* <ProductDetailsPage /> */}
       {/* <Checkout/> */}
-      <CheckoutPage />
+      {/* <CheckoutPage /> */}
+      <AllRoutes />
     </div>
   );
 }
