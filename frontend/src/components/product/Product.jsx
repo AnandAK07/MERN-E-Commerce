@@ -82,10 +82,12 @@ export const Product = () => {
 
     const handleProduct = async () => {
         try {
-            const data = await axios(`https://dummyjson.com/products`)
+            // const data = await axios.get(`https://dummyjson.com/products`)
+            const data = await axios.get(`http://localhost:8000/product`)
             console.log(data.data)
-            console.log(data.data.products)
-            setProducts(data.data.products);
+            // console.log(data.data.products)
+            // setProducts(data.data.products);
+            setProducts(data.data)
         } catch (error) {
             console.log(error)
         }

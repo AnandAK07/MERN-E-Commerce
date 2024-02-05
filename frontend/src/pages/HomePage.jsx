@@ -1,7 +1,21 @@
-import React from 'react'
+import { MainCarousel } from "./MainCarousel"
+import PaginationExample from "./Pagination"
+
+
+
 
 export const HomePage = () => {
+
   return (
-    <div>HomePage</div>
+    <>
+      <MainCarousel />
+      {/* key={product.id} href={product.href}  */}
+      
+      <PaginationExample />
+
+
+
+
+    </>
   )
 }
