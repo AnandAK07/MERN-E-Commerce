@@ -1,8 +1,9 @@
 const express = require('express');
 const connection=require('./configs/db')
-const userRouter=require('./controllers/user.route')
-const productRouter=require('./controllers/product.route');
-const cartRouter = require('./controllers/cart.route');
+const userRouter=require('./routes/user.route')
+const authentication = require('./middlewares/authentication');
+const productRouter=require('./routes/product.route');
+const cartRouter = require('./routes/cart.route');
 const cors=require('cors')
 
 const dotenv = require('dotenv');
@@ -10,15 +11,16 @@ dotenv.config();
 
 
 const app=express();
-app.use(cors())
+app.use(cors('*'))
 app.use(express.json())
 
 
 app.get('/',(req,res)=>{
-    res.send("App is working")
+    res.send('App is working')
 })
 
 app.use('/users', userRouter)
+app.use(authentication)
 app.use('/product', productRouter)
 app.use('/cart',cartRouter)
 
@@ -31,4 +33,5 @@ app.listen(PORT,async()=>{
     } catch (error) {
         console.log("app is ")
     }
+    console.log(PORT)
 })

@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 const dotenv =require('dotenv')
 dotenv.config()
 
+
+
+// 20240203120516
+// https://dummyjson.com/products?limit=100
+
+
+       
+
 const productSchema=mongoose.Schema({
 
     title: {
