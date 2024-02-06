@@ -1,6 +1,41 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Signup = () => {
+    const apiUrl = "https://e-commerce-api-5yix.onrender.com";
+    const [data, setData] = useState('');
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        password: ''
+    })
+
+    const navigate = useNavigate()
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios({
+                method: 'post',
+                url: `${apiUrl}/users/signup`,
+                data: form
+            });
+            setData(res.data)
+            console.log(res.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    if (data == 'Signup successfull') {
+        return navigate('/login')
+    }
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +51,24 @@ export const Signup = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                Name
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    value={form.name}
+                                    autoComplete="name"
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email address
@@ -26,7 +78,9 @@ export const Signup = () => {
                                     id="email"
                                     name="email"
                                     type="email"
+                                    value={form.email}
                                     autoComplete="email"
+                                    onChange={handleChange}
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -50,6 +104,8 @@ export const Signup = () => {
                                     name="password"
                                     type="password"
                                     autoComplete="current-password"
+                                    value={form.password}
+                                    onChange={handleChange}
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -68,9 +124,9 @@ export const Signup = () => {
 
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Have an account?{' '}
-                        <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                        <Link to={'/login'} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                             Login
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>

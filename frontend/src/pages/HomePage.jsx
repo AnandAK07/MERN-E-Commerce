@@ -10,12 +10,7 @@ export const HomePage = () => {
     <>
       <MainCarousel />
       {/* key={product.id} href={product.href}  */}
-      
       <PaginationExample />
-
-
-
-
     </>
   )
 }

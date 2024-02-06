@@ -11,10 +11,6 @@ function App() {
   return (
     <div className="">
       <Navbar />
-      {/* <ProductPage /> */}
-      {/* <ProductDetailsPage /> */}
-      {/* <Checkout/> */}
-      {/* <CheckoutPage /> */}
       <AllRoutes />
     </div>
   );

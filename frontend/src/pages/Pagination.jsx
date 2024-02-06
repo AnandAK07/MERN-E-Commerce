@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 
 const PaginationExample = () => {
     const [products, setProducts] = useState([])
+
 
     const [currentPage, setCurrentPage] = useState(1);
     const data = Array.from({ length: 12 }).map((_, index) => `Item ${index + 1}`);
@@ -45,17 +47,17 @@ const PaginationExample = () => {
         setCurrentPage(page);
     };
 
+    console.log(products, 'p')
     // Render the divs for the current page
     const renderDivs = () => {
-        return data.slice(startIndex, endIndex).map((item, index) => (
-            <div key={index} className={`col-span-${itemsPerPage.perRow}`}>
+        return products.slice(startIndex, endIndex).map((item, index) => (
+            <div key={index} className={`m-5 col-span-${itemsPerPage.perRow}`}>
                 {/* Your div structure goes here */}
-
-                <a className="group">
+                <a className="group m-5">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                         <img
-                            src={products.thumbnail}
-                            className="h-full w-full object-cover object-center group-hover:opacity-75"
+                            src={item.thumbnail}
+                            className="h-100 p-2 object-cover object-center group-hover:opacity-75"
                         />
                     </div>
                     {/* <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3> */}
@@ -69,25 +71,33 @@ const PaginationExample = () => {
 
 
     const handleProduct = async () => {
+        console.log(process.env.REACT_APP_API_URL)
+        console.log(process.env.REACT_APP_DUMMY_JSON_URL)
+        // /products
         try {
-            const data = await axios(`https://dummyjson.com/products`)
-            console.log(data.data)
-            console.log(data.data.products)
+            const data = await axios(`${process.env.REACT_APP_DUMMY_JSON_URL}/products`)
+            // console.log(data.data)
+            // console.log(data.data.products)
             setProducts(data.data.products);
+            // console.log(data.data.products)
         } catch (error) {
             console.log(error)
         }
     }
-    console.log(products, "products")
+    // console.log(products, "products")
     useEffect(() => {
         handleProduct();
     }, [])
     return (
-        <div>
+        <div className="m-10">
             {/* Grid container */}
-            <div className={`grid grid-cols-${itemsPerPage.perRow}  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8`}>
-                {renderDivs()}
-            </div>
+            <Link to={'/product'}>
+
+                {products && <div div className={`grid grid-cols-${itemsPerPage.perRow}  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8`}>
+                    {renderDivs()}
+                </div>}
+            </Link>
+
 
             {/* Pagination controls */}
             <div>
