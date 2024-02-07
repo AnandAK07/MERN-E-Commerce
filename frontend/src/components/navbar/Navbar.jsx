@@ -214,7 +214,7 @@ export const Navbar = () => {
                     <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
 
                 </main>
-                <Cart open={openCart} setOpen={setOpenCart} />
+                {/* <Cart open={openCart} setOpen={setOpenCart} /> */}
             </div>
         </>
     )

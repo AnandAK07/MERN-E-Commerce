@@ -13,7 +13,7 @@ function App() {
     <div className="">
       <Navbar />
       <AllRoutes />
-      {/* <Cart/> */}
+      {/* <Cart /> */}
     </div>
   );
 }
