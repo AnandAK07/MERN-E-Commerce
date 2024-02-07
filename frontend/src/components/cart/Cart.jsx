@@ -2,7 +2,8 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { getCartProduct } from '../../redux/cartReducer/action'
 const products = [
     {
         id: 1,
@@ -28,8 +29,17 @@ const products = [
     // More products...
 ]
 
-export const Cart = ({ open,setOpen }) => {
+export const Cart = ({ open, setOpen }) => {
+    const [data, setProducts] = useState({})
 
+    const {cart} = useSelector((store) => store.cartReducer)
+    console.log(cart,'cart')
+
+    const dispatch = useDispatch()
+    useState(() => {
+        // dispatch(getCartProduct())
+        getCartProduct(dispatch)
+    }, [])
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={setOpen}>

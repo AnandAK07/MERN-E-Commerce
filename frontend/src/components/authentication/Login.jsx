@@ -14,6 +14,7 @@ export const Login = () => {
     const navigate=useNavigate()
     const { token, isAuth, loading, error, success } = useSelector((store) => store.authReducer)
 
+    const loggedtoken =localStorage.getItem('e-token');
     const dispatch = useDispatch()
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -7,6 +7,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IoCartOutline } from "react-icons/io5";
 import { BsCart } from "react-icons/bs";
 import { HiOutlineShoppingCart } from "react-icons/hi";
+import {useDispatch,useSelector} from 'react-redux'
+import { getCartProduct } from '../../redux/cartReducer/action'
 
 const user = {
     name: 'Tom Cook',
@@ -33,6 +35,14 @@ function classNames(...classes) {
 export const Navbar = () => {
     const [open,setOpen]=useState(false)
     const [openCart, setOpenCart] = useState(false)
+
+
+
+    const dispatch = useDispatch()
+    useState(() => {
+        // dispatch(getCartProduct())
+        getCartProduct(dispatch)
+    }, [])
     return (
         <>
             <div className="min-h-full">

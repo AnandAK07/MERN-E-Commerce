@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ProductDetails } from '../components/product/ProductDetails'
+import { useParams } from 'react-router-dom'
 
 export const ProductDetailsPage = () => {
+  const { id } = useParams()
   return (
-    <div><ProductDetails/></div>
+    <div><ProductDetails id={id}/></div>
   )
 }

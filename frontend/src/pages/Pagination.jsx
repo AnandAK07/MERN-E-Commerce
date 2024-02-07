@@ -71,9 +71,6 @@ const PaginationExample = () => {
 
 
     const handleProduct = async () => {
-        console.log(process.env.REACT_APP_API_URL)
-        console.log(process.env.REACT_APP_DUMMY_JSON_URL)
-        // /products
         try {
             const data = await axios(`${process.env.REACT_APP_DUMMY_JSON_URL}/products`)
             // console.log(data.data)
