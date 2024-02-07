@@ -7,7 +7,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IoCartOutline } from "react-icons/io5";
 import { BsCart } from "react-icons/bs";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import {useDispatch,useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getCartProduct } from '../../redux/cartReducer/action'
 
 const user = {
@@ -33,8 +33,8 @@ function classNames(...classes) {
 
 
 export const Navbar = () => {
-    const [open,setOpen]=useState(false)
-    const [openCart, setOpenCart] = useState(false)
+    // const [open,setOpen]=useState(false)
+    // const [openCart, setOpenCart] = useState(false)
 
 
 
@@ -81,8 +81,13 @@ export const Navbar = () => {
                                     </div>
                                     <div className="hidden md:block">
                                         <div className="ml-4 flex items-center md:ml-6">
-                                            <button onClick={() => setOpenCart(!openCart)}>
-                                                <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
+                                            <button
+                                            // onClick={() => setOpenCart(!openCart)}
+
+                                            >
+                                                <Link to={'/cart'}>
+                                                    <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
+                                                </Link>
                                             </button>
                                             <button
                                                 type="button"
@@ -91,7 +96,7 @@ export const Navbar = () => {
                                             >
                                                 <span className="absolute -inset-1.5" />
                                                 <span className="sr-only">View notifications</span>
-                                                <BellIcon className="h-6 w-6" aria-hidden="true" />
+                                                {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                                             </button>
 
                                             {/* Profile dropdown */}
@@ -176,14 +181,15 @@ export const Navbar = () => {
                                         </div>
 
                                         <button
-                                            onClick={() => setOpenCart(!openCart)}
+                                            // onClick={() => setOpenCart(!openCart)}
                                             type="button"
                                             className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                         >
-                                        
+                                            <Link to={'/cart'}>
+                                                <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
+                                            </Link>
                                             {/* <span className="absolute -inset-1.5" />
                                             <span className="sr-only">View notifications</span> */}
-                                            <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
                                             {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                                         </button>
                                     </div>
