@@ -124,6 +124,97 @@ export const Checkout = () => {
                     <div class="w-full">
                         <div class="-mx-3 md:flex items-start">
                             <div class="px-3 md:w-7/12 lg:pr-10">
+
+                                <div class="mb-6 pb-6 border-b border-gray-200 text-gray-800">
+                                    <h1 className='m-3 font-bold text-2xl'>Shipping information</h1>
+
+                                    <div class="mb-3">
+                                        <div className='flex w-full'>
+                                            <div className='w-full m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Full Name</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 ">
+                                        <div className='flex w-full'>
+                                            <div className='w-full m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Flat, House No., Building, Company ,Apartment, etc.</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 ">
+                                        <div className='flex w-full'>
+                                            <div className='w-6/12 m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Area, Street, Sector, Village</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                            <div className='w-6/12 m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Landmark</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 ">
+                                        <div className='flex w-full'>
+                                            <div className='w-6/12 m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Town/city</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                            <div className='w-6/12 m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Pincode</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 ">
+                                        <div className='flex w-full'>
+                                            <div className='w-6/12 m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">State</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                            <div className='w-6/12 m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Country</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 ">
+                                        <div className='flex w-full'>
+                                            <div className='w-full m-2'>
+                                                <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Phone</label>
+                                                <div>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                            <div class="px-3 md:w-5/12">
+                                {/* dee */}
                                 <div class="w-full mx-auto text-gray-800 font-light mb-6 border-b border-gray-200 pb-6">
                                     <div class="w-full flex items-center">
                                         <div class="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
@@ -179,8 +270,12 @@ export const Checkout = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="px-3 md:w-5/12">
+
+
+
+
+
+
                                 <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 text-gray-800 font-light mb-6">
                                     <div class="w-full flex mb-3 items-center">
                                         <div class="w-32">
@@ -278,9 +373,9 @@ export const Checkout = () => {
                     </div>
                 </div>
                 <div class="p-5">
-                    <div class="text-center text-gray-400 text-sm">
+                    {/* <div class="text-center text-gray-400 text-sm">
                         <a href="https://www.buymeacoffee.com/scottwindon" target="_blank" class="focus:outline-none underline text-gray-400"><i class="mdi mdi-beer-outline"></i>Buy me a beer</a> and help support open-resource
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

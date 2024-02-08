@@ -1,5 +1,5 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
@@ -29,14 +29,12 @@ const products = [
     // More products...
 ]
 
-export const Cart = ({ open, setOpen }) => {
-    // const [data, setProducts] = useState({})
-
+export const Cart = () => {
     const { cart } = useSelector((store) => store.cartReducer)
     console.log(cart, 'cart')
 
     const dispatch = useDispatch()
-    useState(() => {
+    useEffect(() => {
         // dispatch(getCartProduct())
         getCartProduct(dispatch)
     }, [])
