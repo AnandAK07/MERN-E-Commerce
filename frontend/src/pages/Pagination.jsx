@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-
+import { FaGreaterThan, FaLessThan } from "react-icons/fa6";
 const PaginationExample = () => {
     const [products, setProducts] = useState([])
 
@@ -97,13 +97,13 @@ const PaginationExample = () => {
 
 
             {/* Pagination controls */}
-            <div>
-                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                    Previous
+            <div style={{display:'flex', justifyContent:'flex-end'}}>
+                <button className='bg-black p-4' onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                    <FaLessThan className='text-white'/>
                 </button>
-                <span>{`Page ${currentPage} of ${totalPages}`}</span>
-                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-                    Next
+                <span style={{ display: 'flex', alignItems: 'center', margin:'1rem'}}>{`Page ${currentPage} of ${totalPages}`}</span>
+                <button className='bg-black p-4' onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                    <FaGreaterThan className='text-white' />
                 </button>
             </div>
         </div>

@@ -2,6 +2,7 @@ import './App.css';
 import { Cart } from './components/cart/Cart';
 import { Checkout } from './components/checkout/Checkout';
 import { Navbar } from './components/navbar/Navbar';
+import { Footer } from './components/footer/Footer'
 import { CheckoutPage } from './pages/CheckoutPage';
 
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
@@ -14,6 +15,7 @@ function App() {
       <Navbar />
       <AllRoutes />
       {/* <Cart /> */}
+      <Footer/>
     </div>
   );
 }
