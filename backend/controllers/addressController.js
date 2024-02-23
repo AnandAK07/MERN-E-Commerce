@@ -14,14 +14,17 @@ const getAddress=async(req,res)=>{
 }
 
 const addAddress = async (req, res) => {
+    console.log('cl')
     const {userId,country,name,mobile,flatNo,area,landmark,pincode,townCity,state}=req.body;
+    console.log('adres', userId, country, name, mobile, flatNo, area, landmark, pincode, townCity, state)
     if (!name || !mobile || !flatNo || !area || !landmark || !pincode||!townCity||!state){
         return res.send('Fill all field');
     }
     try {
         const address = await new addressModel({user_id:userId,country, name, mobile, flatNo, area, landmark, pincode, townCity, state})
         address.save();
-        return res.status(200).send('Address saved')
+        return res.status(200).json({message:'Address saved',address})
+        // return res.status(200).send('Address saved')
     } catch (error) {
         return res.status(500).send('Internal server error:',error)
     }
