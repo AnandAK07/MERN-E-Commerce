@@ -69,7 +69,7 @@ export const Checkout = () => {
 
         const { data: { order } } = await axios({
             method: 'post',
-            url: `http://localhost:8080/payment/checkout`,
+            url: `${process.env.REACT_APP_API_URL}/payment/checkout`,
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -87,7 +87,7 @@ export const Checkout = () => {
             "description": "Test Transaction",
             "image": "https://w7.pngwing.com/pngs/621/196/png-transparent-e-commerce-logo-logo-e-commerce-electronic-business-ecommerce-angle-text-service.png",
             "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "callback_url": `http://localhost:8080/payment/verification`,
+            "callback_url": `${process.env.REACT_APP_API_URL}/payment/verification`,
             "prefill": {
                 "name": "Gaurav Kumar",
                 "email": "gaurav.kumar@example.com",

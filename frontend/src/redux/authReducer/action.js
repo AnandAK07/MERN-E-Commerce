@@ -3,7 +3,6 @@ import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "./actionTyp
 
 
 export const login = (userDetails) => async (dispatch) => {
-    console.log(userDetails,'l')
     try {
         dispatch({ type: LOGIN_REQUEST })
         const res = await axios({
