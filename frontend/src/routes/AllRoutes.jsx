@@ -18,9 +18,9 @@ export const AllRoutes = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/product' element={<PrivateRoute><ProductPage /></PrivateRoute>} />
-      <Route path='/product/:id' element={<ProductDetailsPage />} />
-      <Route path='/checkout' element={<Checkout />} />
-      <Route path='/cart' element={<Cart/>}/>
+      <Route path='/product/:id' element={<PrivateRoute><ProductDetailsPage /></PrivateRoute>} />
+      <Route path='/checkout' element={<PrivateRoute><Checkout /></PrivateRoute>} />
+      <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>}/>
       <Route path='/success' element={<Success/>}/>
       <Route path='/failure' element={<Failure/>}/>
     </Routes>

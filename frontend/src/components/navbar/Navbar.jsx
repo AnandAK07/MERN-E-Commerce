@@ -9,6 +9,9 @@ import { BsCart } from "react-icons/bs";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { useDispatch, useSelector } from 'react-redux'
 import { getCartProduct } from '../../redux/cartReducer/action'
+import { Loading } from '../Loading'
+import { Failure } from '../Failure'
+import { logout } from '../../redux/authReducer/action'
 
 const user = {
     name: 'Tom Cook',
@@ -35,7 +38,25 @@ function classNames(...classes) {
 export const Navbar = () => {
 
 
+    const { token, isAuth, loading, error, success } = useSelector((store) => store.authReducer)
+    console.log(token, isAuth, success)
+
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        logout(dispatch)
+        localStorage.clear('e-token')
+        // dispatch
+    }
+
+    if (loading) {
+        return <Loading />
+    }
+    else if (error) {
+        return <Failure />
+    }
     return (
+
         <>
             <div className="min-h-full">
                 <Disclosure as="nav" className="bg-gray-800">
@@ -76,30 +97,18 @@ export const Navbar = () => {
                                     <div className="hidden md:block">
                                         <div className="ml-4 flex items-center md:ml-6">
                                             <button
-                                            // onClick={() => setOpenCart(!openCart)}
-
                                             >
                                                 <Link to={'/cart'}>
-                                                    <BsCart className="text-gray-400 hover:text-white text-3xl text-bold" />
+                                                    <BsCart className="text-gray-400 hover:text-white text-2xl text-bold" />
                                                 </Link>
                                             </button>
-                                            {/* <button
-                                                type="button"
-                                                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 
-                                            >
-                                            </button> */}
-                                            {/* <span className="absolute -inset-1.5" />
-                                                <span className="sr-only">View notifications</span> */}
-                                            {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
-
-                                            {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3">
                                                 <div>
                                                     <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                         <span className="absolute -inset-1.5" />
                                                         <span className="sr-only">Open user menu</span>
-                                                        <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                                                        <img className="h-8 w-8 rounded-full" src={`https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTM5LnBuZw.png`} alt="" />
                                                     </Menu.Button>
                                                 </div>
                                                 <Transition
@@ -112,21 +121,34 @@ export const Navbar = () => {
                                                     leaveTo="transform opacity-0 scale-95"
                                                 >
                                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                        {userNavigation.map((item) => (
-                                                            <Menu.Item key={item.name}>
-                                                                {({ active }) => (
-                                                                    <a
-                                                                        href={item.href}
-                                                                        className={classNames(
-                                                                            active ? 'bg-gray-100' : '',
-                                                                            'block px-4 py-2 text-sm text-gray-700'
-                                                                        )}
-                                                                    >
-                                                                        {item.name}
-                                                                    </a>
-                                                                )}
-                                                            </Menu.Item>
-                                                        ))}
+
+                                                        {isAuth ? <Menu.Item >
+                                                            {({ active }) => (
+                                                                <Link
+                                                                    // to={'/signup'}
+                                                                    onClick={() => handleLogout()}
+                                                                    className={classNames(
+                                                                        active ? 'bg-gray-100' : '',
+                                                                        'block px-4 py-2 text-sm text-gray-700'
+                                                                    )}
+                                                                >
+                                                                    Log out
+                                                                </Link>
+                                                            )}
+                                                        </Menu.Item> : <Menu.Item >
+                                                            {({ active }) => (
+                                                                <Link
+                                                                    to={'/login'}
+                                                                    className={classNames(
+                                                                        active ? 'bg-gray-100' : '',
+                                                                        'block px-4 py-2 text-sm text-gray-700'
+                                                                    )}
+                                                                >
+                                                                    Login
+                                                                </Link>
+                                                            )}
+                                                        </Menu.Item>
+                                                        }
                                                     </Menu.Items>
                                                 </Transition>
                                             </Menu>
@@ -167,7 +189,7 @@ export const Navbar = () => {
                                 <div className="border-t border-gray-700 pb-3 pt-4">
                                     <div className="flex items-center px-5">
                                         <div className="flex-shrink-0">
-                                            <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
+                                            <img className="h-10 w-10 rounded-full" src={`https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTM5LnBuZw.png`} alt="" />
                                         </div>
                                         <div className="ml-3">
                                             <div className="text-base font-medium leading-none text-white">{user.name}</div>
@@ -188,16 +210,21 @@ export const Navbar = () => {
                                         </button>
                                     </div>
                                     <div className="mt-3 space-y-1 px-2">
-                                        {userNavigation.map((item) => (
-                                            <Disclosure.Button
-                                                key={item.name}
-                                                as="a"
-                                                href={item.href}
-                                                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                            >
-                                                {item.name}
-                                            </Disclosure.Button>
-                                        ))}
+                                        {isAuth ? <Disclosure.Button
+                                            as="a"
+                                            onClick={() => handleLogout()}
+                                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                        >
+                                            Log out
+                                        </Disclosure.Button> : <Disclosure.Button
+
+                                            as="a"
+                                            href={`/login`}
+                                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                        >
+                                            Login
+                                        </Disclosure.Button>}
+
                                     </div>
                                 </div>
                             </Disclosure.Panel>
