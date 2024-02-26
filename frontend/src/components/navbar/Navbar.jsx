@@ -45,13 +45,13 @@ export const Navbar = () => {
                                 <div className="flex h-16 items-center justify-between">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0">
-                                        <Link to={'/'}>
-                                            <img
-                                                className="h-12 rounded-3xl object-cover"
-                                                src="https://p1.hiclipart.com/preview/234/537/305/digital-marketing-ecommerce-shopping-cart-software-online-shopping-drop-shipping-web-design-retail-business-png-clipart.jpg"
-                                                alt="Your Company"
-                                            />
-                                        </Link>
+                                            <Link to={'/'}>
+                                                <img
+                                                    className="h-12 rounded-3xl object-cover"
+                                                    src="https://p1.hiclipart.com/preview/234/537/305/digital-marketing-ecommerce-shopping-cart-software-online-shopping-drop-shipping-web-design-retail-business-png-clipart.jpg"
+                                                    alt="Your Company"
+                                                />
+                                            </Link>
                                         </div>
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
@@ -80,7 +80,7 @@ export const Navbar = () => {
 
                                             >
                                                 <Link to={'/cart'}>
-                                                    <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
+                                                    <BsCart className="text-gray-400 hover:text-white text-3xl text-bold" />
                                                 </Link>
                                             </button>
                                             {/* <button

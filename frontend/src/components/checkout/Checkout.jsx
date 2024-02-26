@@ -32,7 +32,6 @@ export const Checkout = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-        console.log(name, value)
         setForm((prev) => ({ ...prev, [name]: value }))
     }
 
@@ -62,14 +61,11 @@ export const Checkout = () => {
 
     const checkoutHandler = async (amount) => {
         const token = localStorage.getItem('e-token');
-        console.log(cart, 'idsCart', amount)
-
         const productids = cart.map((product, id) => {
             return product.productId;
         }, [])
-        console.log(productids)
 
-        // const checkoutHandler = async (title, amount) => {
+
 
         const { data: { order } } = await axios({
             method: 'post',
@@ -82,7 +78,6 @@ export const Checkout = () => {
                 amount
             }
         })
-        console.log(order,'i')
 
         var options = {
             "key": "rzp_test_vaOTnJKV9rc05L", // Enter the Key ID generated from the Dashboard
@@ -107,7 +102,6 @@ export const Checkout = () => {
         };
         var rzp1 = new window.Razorpay(options);
         rzp1.open();
-        console.log(order)
     }
 
     return (
@@ -282,77 +276,6 @@ export const Checkout = () => {
                                         <div class="flex-grow pl-3">
                                             <span>123 George Street, Sydney, NSW 2000 Australia</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 text-gray-800 font-light mb-6">
-                                    <div class="w-full p-3 border-b border-gray-200">
-                                        <div class="mb-5">
-                                            <label for="type1" class="flex items-center cursor-pointer">
-                                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" checked />
-                                                <img src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png" class="h-6 ml-3" />
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <div class="mb-3">
-                                                <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Name on card</label>
-                                                <div>
-                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Card number</label>
-                                                <div>
-                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="0000 0000 0000 0000" type="text" />
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 -mx-2 flex items-end">
-                                                <div class="px-2 w-1/4">
-                                                    <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Expiration date</label>
-                                                    <div>
-                                                        <select class="form-select w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
-                                                            <option value="01">01 - January</option>
-                                                            <option value="02">02 - February</option>
-                                                            <option value="03">03 - March</option>
-                                                            <option value="04">04 - April</option>
-                                                            <option value="05">05 - May</option>
-                                                            <option value="06">06 - June</option>
-                                                            <option value="07">07 - July</option>
-                                                            <option value="08">08 - August</option>
-                                                            <option value="09">09 - September</option>
-                                                            <option value="10">10 - October</option>
-                                                            <option value="11">11 - November</option>
-                                                            <option value="12">12 - December</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="px-2 w-1/4">
-                                                    <select class="form-select w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
-                                                        <option value="2020">2020</option>
-                                                        <option value="2021">2021</option>
-                                                        <option value="2022">2022</option>
-                                                        <option value="2023">2023</option>
-                                                        <option value="2024">2024</option>
-                                                        <option value="2025">2025</option>
-                                                        <option value="2026">2026</option>
-                                                        <option value="2027">2027</option>
-                                                        <option value="2028">2028</option>
-                                                        <option value="2029">2029</option>
-                                                    </select>
-                                                </div>
-                                                <div class="px-2 w-1/4">
-                                                    <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Security code</label>
-                                                    <div>
-                                                        <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="000" type="text" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w-full p-3">
-                                        <label for="type2" class="flex items-center cursor-pointer">
-                                            <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type2" />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="80" class="ml-3" />
-                                        </label>
                                     </div>
                                 </div>
                                 <div>
