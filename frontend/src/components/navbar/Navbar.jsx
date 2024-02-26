@@ -52,9 +52,7 @@ export const Navbar = () => {
     if (loading) {
         return <Loading />
     }
-    else if (error) {
-        return <Failure />
-    }
+
     return (
 
         <>
