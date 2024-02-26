@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
         quantity: {
             type: Number
         }
+    }],
+    orders: [{
+        type: Schema.Types.ObjectId,  
+        ref: 'Order' 
     }],
     timestamps: {
         type: Schema.Types.Date,
