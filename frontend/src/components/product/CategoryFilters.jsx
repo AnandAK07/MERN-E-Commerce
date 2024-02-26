@@ -1,59 +1,56 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { Product } from './Product'
+import { singleFilter } from './filterData'
+import { Pagination } from './Pagination'
 
 const sortOptions = [
-    { name: 'Most Popular', href: '#', current: true },
     { name: 'Best Rating', href: '#', current: false },
-    { name: 'Newest', href: '#', current: false },
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
 ]
+// const subCategories = [
+//     { name: 'Totes', href: '#' },
+//     { name: 'Backpacks', href: '#' },
+//     { name: 'Travel Bags', href: '#' },
+//     { name: 'Hip Bags', href: '#' },
+//     { name: 'Laptop Sleeves', href: '#' },
+// ]
 const subCategories = [
-    { name: 'Totes', href: '#' },
-    { name: 'Backpacks', href: '#' },
-    { name: 'Travel Bags', href: '#' },
-    { name: 'Hip Bags', href: '#' },
-    { name: 'Laptop Sleeves', href: '#' },
+    // { name: 'smartphones'},
+    // { name: 'laptops' },
 ]
+
 const filters = [
-    {
-        id: 'color',
-        name: 'Color',
-        options: [
-            { value: 'white', label: 'White', checked: false },
-            { value: 'beige', label: 'Beige', checked: false },
-            { value: 'blue', label: 'Blue', checked: true },
-            { value: 'brown', label: 'Brown', checked: false },
-            { value: 'green', label: 'Green', checked: false },
-            { value: 'purple', label: 'Purple', checked: false },
-        ],
-    },
     {
         id: 'category',
         name: 'Category',
         options: [
-            { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-            { value: 'sale', label: 'Sale', checked: false },
-            { value: 'travel', label: 'Travel', checked: true },
-            { value: 'organization', label: 'Organization', checked: false },
-            { value: 'accessories', label: 'Accessories', checked: false },
+            { value: 'smartphones', label: 'smartphones', checked: false },
+            { value: 'laptops', label: 'laptops', checked: false },
+            { value: 'fragrances', label: 'fragrances', checked: false },
+            { value: 'skincare', label: 'skincare', checked: false },
+            { value: 'groceries', label: 'groceries', checked: false },
+            { value: 'home-decoration', label: 'home-decoration', checked: false },
+            { value: 'furniture', label: 'furniture', checked: false },
+            { value: 'tops', label: 'tops', checked: false },
+            { value: 'womens-dresses', label: 'womens-dresses', checked: false },
+            { value: 'womens-shoes', label: 'womens-shoes', checked: false },
+            { value: 'mens-shirts', label: 'mens-shirts', checked: false },
+            { value: 'mens-shoes', label: 'mens-shoes', checked: false },
+            { value: 'mens-watches', label: 'mens-watches', checked: false },
+            { value: 'womens-watches', label: 'womens-watches', checked: false },
+            { value: 'womens-bags', label: 'womens-bags', checked: false },
+            { value: 'womens-jewellery', label: 'womens-jewellery', checked: false },
+            { value: 'sunglasses', label: 'sunglasses', checked: false },
+            { value: 'automotive', label: 'automotive', checked: false },
+            { value: 'motorcycle', label: 'motorcycle', checked: false },
+            { value: 'lighting', label: 'lighting', checked: false }
         ],
-    },
-    {
-        id: 'size',
-        name: 'Size',
-        options: [
-            { value: '2l', label: '2L', checked: false },
-            { value: '6l', label: '6L', checked: false },
-            { value: '12l', label: '12L', checked: false },
-            { value: '18l', label: '18L', checked: false },
-            { value: '20l', label: '20L', checked: false },
-            { value: '40l', label: '40L', checked: true },
-        ],
-    },
+    }
 ]
 
 
@@ -61,8 +58,58 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+const getUrl = (apiUrl, search, filter, sortingOrder, currentPage) => {
+    if (search) {
+        apiUrl = apiUrl + `?=${search}`
+    }
+    if (filter) {
+        apiUrl = apiUrl + `?category=${filter}`
+    }
+    if (sortingOrder) {
+        apiUrl = apiUrl + `?_sort=price&_order=${sortingOrder}`
+    }
+    return apiUrl;
+}
+
 export const CategoryFilters = () => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [category, setCategory] = useState([]);
+    const [range, setRange] = useState('');
+    const [discount, setDiscount] = useState('');
+    const [stock, setStock] = useState('');
+    const [sortingOrder, setSortingOrder] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState('')
+    const limit = 12;
+    
+    // Define your handleCategory function
+    const handleCategory = (categoryValue, isChecked) => {
+        if (isChecked) {
+            // If checkbox is checked, add the category to the array
+            setCategory(prevCategories => [...prevCategories, categoryValue]);
+        } else {
+            // If checkbox is unchecked, remove the category from the array
+            setCategory(prevCategories => prevCategories.filter(cat => cat !== categoryValue));
+        }
+    };
+
+    const handleRadioFilterChange = (e, id) => {
+        if (id === 'price') {
+            setRange(e.target.value);
+        } else if (id === 'discount') {
+            setDiscount(e.target.value);
+        } else if (id === 'stock') {
+            setStock(e.target.value)
+        }
+    }
+
+    console.log(range, 'r', discount, 'd', stock, 's')
+
+    const apiUrl = process.env.REACT_APP_API_URL;
+    useEffect(() => {
+        const url = getUrl(apiUrl, search, category, sortingOrder, currentPage)
+    }, [search, category, sortingOrder, currentPage])
+
 
     return (
         <>
@@ -118,6 +165,7 @@ export const CategoryFilters = () => {
                                             ))}
                                         </ul>
 
+
                                         {filters.map((section) => (
                                             <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                                                 {({ open }) => (
@@ -139,6 +187,7 @@ export const CategoryFilters = () => {
                                                                 {section.options.map((option, optionIdx) => (
                                                                     <div key={option.value} className="flex items-center">
                                                                         <input
+
                                                                             id={`filter-mobile-${section.id}-${optionIdx}`}
                                                                             name={`${section.id}[]`}
                                                                             defaultValue={option.value}
@@ -160,6 +209,46 @@ export const CategoryFilters = () => {
                                                 )}
                                             </Disclosure>
                                         ))}
+
+                                        {singleFilter.map((section) => (
+                                            <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
+                                                {({ open }) => (
+                                                    <>
+                                                        <h3 className="-mx-2 -my-3 flow-root">
+                                                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                                                                {/* <span className="font-medium text-gray-900">{section.name}</span> */}
+                                                                <FormLabel style={{ color: 'black' }} id="demo-radio-buttons-group-label">{section.name}</FormLabel>
+                                                                <span className="ml-6 flex items-center">
+                                                                    {open ? (
+                                                                        <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                    ) : (
+                                                                        <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                    )}
+                                                                </span>
+                                                            </Disclosure.Button>
+                                                        </h3>
+                                                        <Disclosure.Panel className="pt-6">
+                                                            <div className="space-y-4">
+                                                                <FormControl>
+                                                                    <RadioGroup
+                                                                        aria-labelledby="demo-radio-buttons-group-label"
+                                                                        defaultValue="female"
+                                                                        name="radio-buttons-group"
+                                                                    >
+                                                                        {section.options.map((option, optionIdx) => (
+                                                                            <>
+                                                                                <FormControlLabel onChange={(e) => handleRadioFilterChange(e, section.id)} value={option.value} control={<Radio />} label={option.label} />
+                                                                            </>
+                                                                        ))}
+                                                                    </RadioGroup>
+                                                                </FormControl>
+                                                            </div>
+                                                        </Disclosure.Panel>
+
+                                                    </>
+                                                )}
+                                            </Disclosure>
+                                        ))}
                                     </form>
                                 </Dialog.Panel>
                             </Transition.Child>
@@ -168,8 +257,8 @@ export const CategoryFilters = () => {
                 </Transition.Root>
 
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
+                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-8">
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">Products</h1>
 
                         <div className="flex items-center">
                             <Menu as="div" className="relative inline-block text-left">
@@ -204,6 +293,7 @@ export const CategoryFilters = () => {
                                                                 active ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm'
                                                             )}
+                                                            onClick={() => { setSortingOrder(option.name); console.log(option.name) }}
                                                         >
                                                             {option.name}
                                                         </a>
@@ -268,6 +358,7 @@ export const CategoryFilters = () => {
                                                         {section.options.map((option, optionIdx) => (
                                                             <div key={option.value} className="flex items-center">
                                                                 <input
+                                                                    onChange={e => handleCategory(option.value, e.target.checked)}
                                                                     id={`filter-${section.id}-${optionIdx}`}
                                                                     name={`${section.id}[]`}
                                                                     defaultValue={option.value}
@@ -289,15 +380,56 @@ export const CategoryFilters = () => {
                                         )}
                                     </Disclosure>
                                 ))}
+
+                                {singleFilter.map((section) => (
+                                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                                        {({ open }) => (
+                                            <>
+                                                <h3 className="-my-3 flow-root">
+                                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                                                        {/* <span className="font-medium text-gray-900">{section.name}</span> */}
+                                                        <FormLabel style={{ color: 'black' }} id="demo-radio-buttons-group-label">{section.name}</FormLabel>
+                                                        <span className="ml-6 flex items-center">
+                                                            {open ? (
+                                                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                            ) : (
+                                                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                            )}
+                                                        </span>
+                                                    </Disclosure.Button>
+                                                </h3>
+                                                <Disclosure.Panel className="pt-6">
+                                                    <div className="space-y-4">
+                                                        <FormControl>
+                                                            <RadioGroup
+                                                                aria-labelledby="demo-radio-buttons-group-label"
+                                                                defaultValue="female"
+                                                                name="radio-buttons-group"
+                                                            >
+                                                                {section.options.map((option, optionIdx) => (
+                                                                    <>
+                                                                        <FormControlLabel onChange={(e) => handleRadioFilterChange(e, section.id)} value={option.value} control={<Radio />} label={option.label} />
+                                                                    </>
+                                                                ))}
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                    </div>
+                                                </Disclosure.Panel>
+
+                                            </>
+                                        )}
+                                    </Disclosure>
+                                ))}
                             </form>
 
                             {/* Product grid */}
                             <div className="lg:col-span-3">{/* Your content */}
-                                <Product />
+                                <Product mobileFiltersOpen={mobileFiltersOpen} category={category} range={range} discount={discount} stock={stock} sortingOrder={sortingOrder} currentPage={currentPage} limit={limit} />
                             </div>
                         </div>
                     </section>
                 </main>
+                <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             </div>
         </>
     )

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 export const Checkout = () => {
     const [form, setForm] = useState({
@@ -13,21 +14,34 @@ export const Checkout = () => {
         country: '',
         mobile: '',
     })
-    const [details,setDetails]=useState({})
+    const [details, setDetails] = useState({})
+
+    const { cart } = useSelector((store) => store.cartReducer)
+    // console.log(cart, 'carthhd')
     // const apiUrl = process.env.REACT_APP_API_URL;
-    const apiUrl = `http://localhost:8000`;
+    // const apiUrl = `http://localhost:8000`;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
 
-    const handleChange=(e)=>{
-        const {name,value}=e.target
-        console.log(name,value)
-        setForm((prev)=>({...prev,[name]:value}))
+    // Calculate total price for all products
+    const totalPriceOfAllProducts = cart.reduce((total, product) => {
+        return total + (product.price * product.quantity);
+    }, 0);
+
+    console.log("Total Price of All Products:", totalPriceOfAllProducts);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        console.log(name, value)
+        setForm((prev) => ({ ...prev, [name]: value }))
     }
 
 
     const handleSunbmit = async (e) => {
         e.preventDefault();
+        console.log(form)
         const token = localStorage.getItem('e-token');
+        console.log(token)
         try {
             // Using Axios to make an HTTP request to the backend
             const response = await axios({
@@ -38,11 +52,62 @@ export const Checkout = () => {
                 },
                 data: form // Sending form data as the request body
             });
-            const {address}=response.data;
+            const { address } = response.data;
+            console.log(response)
             setDetails(address);
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const checkoutHandler = async (amount) => {
+        const token = localStorage.getItem('e-token');
+        console.log(cart, 'idsCart', amount)
+
+        const productids = cart.map((product, id) => {
+            return product.productId;
+        }, [])
+        console.log(productids)
+
+        // const checkoutHandler = async (title, amount) => {
+
+        const { data: { order } } = await axios({
+            method: 'post',
+            url: `http://localhost:8080/payment/checkout`,
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            data: {
+                productIds: productids,
+                amount
+            }
+        })
+        console.log(order,'i')
+
+        var options = {
+            "key": "rzp_test_vaOTnJKV9rc05L", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": order.currency,
+            "name": "Anand",
+            "description": "Test Transaction",
+            "image": "https://w7.pngwing.com/pngs/621/196/png-transparent-e-commerce-logo-logo-e-commerce-electronic-business-ecommerce-angle-text-service.png",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": `http://localhost:8080/payment/verification`,
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9000090000"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new window.Razorpay(options);
+        rzp1.open();
+        console.log(order)
     }
 
     return (
@@ -60,7 +125,7 @@ export const Checkout = () => {
                                             <div className='w-full m-2'>
                                                 <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Full Name</label>
                                                 <div>
-                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" name='name' value={form.name} onChange={handleChange}/>
+                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" name='name' value={form.name} onChange={handleChange} />
                                                 </div>
                                             </div>
                                         </div>
@@ -143,20 +208,23 @@ export const Checkout = () => {
 
                             <div class="px-3 mt-10 md:w-5/12 border-t 1rem pt-4">
                                 {/* dee */}
-                                <div class="w-full mx-auto text-gray-800 font-light mb-6 border-b border-gray-200 pb-6">
-                                    <div class="w-full flex items-center">
-                                        <div class="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
-                                            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80" alt="" />
-                                        </div>
-                                        <div class="flex-grow pl-3">
-                                            <h6 class="font-semibold uppercase text-gray-600">Ray Ban Sunglasses.</h6>
-                                            <p class="text-gray-400">x 1</p>
-                                        </div>
-                                        <div>
-                                            <span class="font-semibold text-gray-600 text-xl">$210</span><span class="font-semibold text-gray-600 text-sm">.00</span>
+                                {cart.map((product) => (
+                                    <div class="w-full mx-auto text-gray-800 font-light mb-6 border-b border-gray-200 pb-6">
+                                        <div class="w-full flex items-center">
+                                            <div class="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
+                                                <img src={product.thumbnail} alt="" />
+                                            </div>
+                                            <div class="flex-grow pl-3">
+                                                <h6 class="font-semibold uppercase text-gray-600">{product.title}</h6>
+                                                <p class="text-gray-400">x {product.quantity}</p>
+                                            </div>
+                                            <div>
+                                                <span class="font-semibold text-gray-600 text-xl">₹{product.price * product.quantity}</span><span class="font-semibold text-gray-600 text-sm">.00</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                ))
+                                }
                                 <div class="mb-6 pb-6 border-b border-gray-200">
                                     <div class="-mx-2 flex items-end justify-end">
                                         <div class="flex-grow px-2 lg:max-w-xs">
@@ -176,15 +244,15 @@ export const Checkout = () => {
                                             <span class="text-gray-600">Subtotal</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold">$190.91</span>
+                                            <span class="font-semibold">₹{totalPriceOfAllProducts}</span>
                                         </div>
                                     </div>
                                     <div class="w-full flex items-center">
                                         <div class="flex-grow">
-                                            <span class="text-gray-600">Taxes (GST)</span>
+                                            <span class="text-gray-600">Shipping</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold">$19.09</span>
+                                            <span class="font-semibold">₹50</span>
                                         </div>
                                     </div>
                                 </div>
@@ -194,16 +262,10 @@ export const Checkout = () => {
                                             <span class="text-gray-600">Total</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold text-gray-400 text-sm">AUD</span> <span class="font-semibold">$210.00</span>
+                                            <span class="font-semibold text-gray-400 text-sm">IN</span> <span class="font-semibold">₹{totalPriceOfAllProducts + 50}</span>
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
                                 <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 text-gray-800 font-light mb-6">
                                     <div class="w-full flex mb-3 items-center">
                                         <div class="w-32">
@@ -294,7 +356,7 @@ export const Checkout = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
+                                    <button onClick={() => checkoutHandler(totalPriceOfAllProducts + 50)} class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1" ></i> PAY NOW</button>
                                 </div>
                             </div>
                         </div>

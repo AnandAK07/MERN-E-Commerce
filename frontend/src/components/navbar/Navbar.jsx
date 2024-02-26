@@ -45,11 +45,13 @@ export const Navbar = () => {
                                 <div className="flex h-16 items-center justify-between">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0">
+                                        <Link to={'/'}>
                                             <img
-                                                className="h-8 w-8"
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                                                className="h-12 rounded-3xl object-cover"
+                                                src="https://p1.hiclipart.com/preview/234/537/305/digital-marketing-ecommerce-shopping-cart-software-online-shopping-drop-shipping-web-design-retail-business-png-clipart.jpg"
                                                 alt="Your Company"
                                             />
+                                        </Link>
                                         </div>
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
@@ -81,15 +83,15 @@ export const Navbar = () => {
                                                     <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
                                                 </Link>
                                             </button>
-                                            <button
+                                            {/* <button
                                                 type="button"
                                                 className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 
                                             >
-                                                <span className="absolute -inset-1.5" />
-                                                <span className="sr-only">View notifications</span>
-                                                {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
-                                            </button>
+                                            </button> */}
+                                            {/* <span className="absolute -inset-1.5" />
+                                                <span className="sr-only">View notifications</span> */}
+                                            {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
 
                                             {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3">
@@ -203,15 +205,6 @@ export const Navbar = () => {
                     )}
                 </Disclosure>
 
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-                    </div>
-                </header>
-                <main>
-                    <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
-
-                </main>
                 {/* <Cart open={openCart} setOpen={setOpenCart} /> */}
             </div>
         </>

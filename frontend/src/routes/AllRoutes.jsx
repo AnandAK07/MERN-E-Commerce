@@ -8,6 +8,8 @@ import { Signup } from '../components/authentication/Signup'
 import { Login } from '../components/authentication/Login'
 import { Cart } from '../components/cart/Cart'
 import { PrivateRoute } from './PrivateRoute'
+import { Failure } from '../pages/Failure'
+import { Success } from '../pages/Success'
 
 export const AllRoutes = () => {
   return (
@@ -19,6 +21,8 @@ export const AllRoutes = () => {
       <Route path='/product/:id' element={<ProductDetailsPage />} />
       <Route path='/checkout' element={<Checkout />} />
       <Route path='/cart' element={<Cart/>}/>
+      <Route path='/success' element={<Success/>}/>
+      <Route path='/failure' element={<Failure/>}/>
     </Routes>
   )
 }

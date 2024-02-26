@@ -307,7 +307,7 @@ export const ProductDetails = ({ id }) => {
                                     <h3 className="sr-only">Description</h3>
 
                                     <div className="space-y-6">
-                                        <p className="text-base text-gray-900">{product.description}</p>
+                                        <p className="text-base text-gray-900">{singleProduct.description}</p>
                                     </div>
                                 </div>
 

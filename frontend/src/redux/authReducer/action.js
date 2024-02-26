@@ -1,14 +1,14 @@
 import axios from "axios";
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "./actionType"
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const login = (userDetails) => async (dispatch) => {
+    console.log(userDetails,'l')
     try {
         dispatch({ type: LOGIN_REQUEST })
         const res = await axios({
             method: 'post',
-            url: `${apiUrl}/users/login`,
+            url: `${process.env.REACT_APP_API_URL}/users/login`,
             data: userDetails
         });
         const token=res?.data.token
