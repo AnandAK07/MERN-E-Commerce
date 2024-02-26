@@ -41,10 +41,10 @@ const verification=async(req,res)=>{
                 razorpay_signature
             }
         );
-        res.redirect(`http://localhost:3000/success?payment_id=${razorpay_payment_id}`)
+        res.redirect(`${process.env.REACT_URL}/success?payment_id=${razorpay_payment_id}`)
         return;
     } else {
-        res.redirect(`http://localhost:3000/failure`)
+        res.redirect(`${process.env.REACT_URL}/failure`)
         return;
     }
 }
