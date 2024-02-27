@@ -1,8 +1,10 @@
 import React from 'react'
 import { CategoryFilters } from '../components/product/CategoryFilters'
 
-export const ProductPage = () => {
+const ProductPage = () => {
   return (
-      <div><CategoryFilters/></div>
+    <><CategoryFilters /></>
   )
 }
+
+export default ProductPage

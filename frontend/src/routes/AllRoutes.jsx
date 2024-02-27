@@ -1,28 +1,30 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { HomePage } from '../pages/HomePage'
-import { ProductPage } from '../pages/ProductPage'
-import { ProductDetailsPage } from '../pages/ProductDetailsPage'
-import { Checkout } from '../components/checkout/Checkout'
+
 import { Signup } from '../components/authentication/Signup'
 import { Login } from '../components/authentication/Login'
-import { Cart } from '../components/cart/Cart'
 import { PrivateRoute } from './PrivateRoute'
 import { Failure } from '../pages/Failure'
 import { Success } from '../pages/Success'
+import { Loading } from '../components/Loading'
+const ProductPage =lazy(() => import('../pages/ProductPage'))  
+const HomePage = lazy(() => import('../pages/HomePage'))
+const ProductDetailsPage = lazy(() => import('../pages/ProductDetailsPage'))
+const CartPage = lazy(() => import('../pages/CartPage')) 
+const CheckoutPage = lazy(() => import('../pages/CheckoutPage')) 
 
 export const AllRoutes = () => {
   return (
     <Routes>
-      <Route path='/' element={<HomePage />} />
+      <Route path='/' element={<Suspense fallback={<Loading />}><HomePage /></Suspense>} />
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
-      <Route path='/product' element={<PrivateRoute><ProductPage /></PrivateRoute>} />
-      <Route path='/product/:id' element={<PrivateRoute><ProductDetailsPage /></PrivateRoute>} />
-      <Route path='/checkout' element={<PrivateRoute><Checkout /></PrivateRoute>} />
-      <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>}/>
-      <Route path='/success' element={<Success/>}/>
-      <Route path='/failure' element={<Failure/>}/>
+      <Route path='/product' element={<Suspense fallback={<Loading />}><PrivateRoute><ProductPage /></PrivateRoute></Suspense>} />
+      <Route path='/product/:id' element={<PrivateRoute><PrivateRoute><ProductDetailsPage /></PrivateRoute></PrivateRoute>} />
+      <Route path='/checkout' element={<Suspense fallback={<Loading />}><PrivateRoute><CheckoutPage /></PrivateRoute></Suspense>} />
+      <Route path='/cart' element={<Suspense fallback={<Loading />}><PrivateRoute><CartPage /></PrivateRoute></Suspense>} />
+      <Route path='/success' element={<Success />} />
+      <Route path='/failure' element={<Failure />} />
     </Routes>
   )
 }

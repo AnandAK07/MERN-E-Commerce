@@ -4,7 +4,7 @@ import PaginationExample from "./Pagination"
 
 
 
-export const HomePage = () => {
+const HomePage = () => {
 
   return (
     <>
@@ -14,3 +14,5 @@ export const HomePage = () => {
     </>
   )
 }
+
+export default HomePage;

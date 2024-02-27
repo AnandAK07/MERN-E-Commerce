@@ -1,58 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getAllProducts } from '../../redux/productReducer/action'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 
-export const Product = ({ mobileFiltersOpen, category, range, discount, stock, sortingOrder, currentPage, limit }) => {
-    const dispatch = useDispatch();
-    const { product, loading, success, error } = useSelector((store) => store.productReducer)
-
-
-    const filteredProducts = product.filter(product => {
-        const stockMatch = stock === '' || (stock === 'in_stock' && product.stock >= 1) || (stock === 'out_of_stock' && product.stock < 1);
-        const categoryMatch = category.length === 0 || category.includes(product.category)
-        const discountMatch = discount === '' || product.discountPercentage >= discount;
-        const priceRangeMatch = range === '' || isPriceInRange(product.price, range);
-
-        return stockMatch && categoryMatch && discountMatch && priceRangeMatch;
-    });
-
-    // Function to check if a price falls within a given range
-    function isPriceInRange(price, range) {
-        const [min, max] = range.split('-').map(Number);
-        return price >= min && price <= max;
-    }
-
-
-    const sortedProducts = [...filteredProducts].sort((a, b) => {
-        if (sortingOrder === 'Price: Low to High') {
-            return a.price - b.price;
-        } else if (sortingOrder === 'Price: High to Low') {
-            return b.price - a.price;
-        } else if (sortingOrder === 'Best Rating') {
-            return b.rating - a.rating;
-        } else {
-            return a.title.localeCompare(b.title)
-        }
-    });
-
-
-
-    const indexOfLastProduct = currentPage * 12;
-    const indexOfFirstProduct = indexOfLastProduct - 12;
-    const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
-    const totalPages = Math.ceil(product.length / 12);
-    useEffect(() => {
-        getAllProducts(dispatch, (mobileFiltersOpen, category, sortingOrder, currentPage, limit))
-    }, [])
-
+export const Product = ({ currentProducts }) => {
     return (
 
         <>
             {/* <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"> */}
-            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <div className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8">
                 <h2 className="sr-only">Products</h2>
 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
