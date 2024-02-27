@@ -25,10 +25,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/users', userRouter)
-
-
 app.use('/payment', paymentRouter);
-
 
 app.use(authentication)
 app.use('/product', productRouter)
