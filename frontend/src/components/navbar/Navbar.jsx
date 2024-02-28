@@ -16,7 +16,7 @@ const user = {
 const navigation = [
     { title: 'Home', path: '/' },
     { title: 'Product', path: '/product' },
-    { title: 'Checkout', path: '/checkout' }
+    { title: 'Contact Us', path: '/contactus' }
 ]
 const userNavigation = [
     { name: 'Your Profile', href: '#' },

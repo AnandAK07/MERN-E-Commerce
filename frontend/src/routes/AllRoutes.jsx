@@ -7,6 +7,14 @@ import { PrivateRoute } from './PrivateRoute'
 import { Failure } from '../pages/Failure'
 import { Success } from '../pages/Success'
 import { Loading } from '../components/Loading'
+const ContactUsPage =lazy(()=>import('../pages/ContactUsPage'))
+
+
+
+
+
+
+
 const ProductPage =lazy(() => import('../pages/ProductPage'))  
 const HomePage = lazy(() => import('../pages/HomePage'))
 const ProductDetailsPage = lazy(() => import('../pages/ProductDetailsPage'))
@@ -23,6 +31,7 @@ export const AllRoutes = () => {
       <Route path='/product/:id' element={<Suspense fallback={<Loading />}><PrivateRoute><ProductDetailsPage /></PrivateRoute></Suspense>} />
       <Route path='/checkout' element={<Suspense fallback={<Loading />}><PrivateRoute><CheckoutPage /></PrivateRoute></Suspense>} />
       <Route path='/cart' element={<Suspense fallback={<Loading />}><PrivateRoute><CartPage /></PrivateRoute></Suspense>} />
+      <Route path='/contactus' element={<Suspense fallback={<Loading/>}><ContactUsPage /></Suspense>}/>
       <Route path='/success' element={<Success />} />
       <Route path='/failure' element={<Failure />} />
     </Routes>

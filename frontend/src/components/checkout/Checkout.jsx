@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCartProduct } from '../../redux/cartReducer/action'
+import { toast, Bounce } from 'react-toastify';
 
 export const Checkout = () => {
     const [form, setForm] = useState({
@@ -16,6 +17,8 @@ export const Checkout = () => {
         mobile: '',
     })
     const [details, setDetails] = useState({})
+    const [discountCode,setDiscountCode]=useState('');
+    const [total,setTotal]=useState(0)
 
     const dispatch = useDispatch()
     const { cart } = useSelector((store) => store.cartReducer)
@@ -27,7 +30,6 @@ export const Checkout = () => {
         return total + (product.price * product.quantity);
     }, 0);
 
-    console.log("Total Price of All Products:", totalPriceOfAllProducts);
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -37,12 +39,12 @@ export const Checkout = () => {
 
     const handleSunbmit = async (e) => {
         e.preventDefault();
-        console.log(form)
+        // console.log(form)
         const token = localStorage.getItem('e-token');
-        console.log(token)
+        // console.log(token)
         try {
             // Using Axios to make an HTTP request to the backend
-            const response = await axios({
+            const { data: { address } } = await axios({
                 method: 'post',
                 url: `${process.env.REACT_APP_API_URL}/address/create`, // Backend API endpoint
                 headers: {
@@ -50,20 +52,45 @@ export const Checkout = () => {
                 },
                 data: form // Sending form data as the request body
             });
-            const { address } = response.data;
-            console.log(response)
-            setDetails(address);
+            if (address) {
+                setDetails(address);
+                toast.success('🦄 Address added successfully!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                });
+            } else {
+                toast.error('🦄 Error while Adding Address!', {
+                    position: "top-center",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                });
+            }
         } catch (error) {
             console.log(error);
         }
     }
 
     const checkoutHandler = async (amount) => {
+        if (discountCode ==='Anandak07'){
+            setTotal((amount/5));
+        }
         const token = localStorage.getItem('e-token');
         const productids = cart.map((product, id) => {
             return product.productId;
         }, [])
-
 
 
         const { data: { order } } = await axios({
@@ -121,7 +148,7 @@ export const Checkout = () => {
                                         <div className='w-full m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Full Name</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" name='name' value={form.name} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" name='name' value={form.name} onChange={handleChange} required/>
                                             </div>
                                         </div>
                                     </div>
@@ -132,7 +159,7 @@ export const Checkout = () => {
                                         <div className='w-full m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Flat, House No., Building ,Apartment, etc.</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Flat,House No." type="text" name='flatNo' value={form.flatNo} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Flat,House No." type="text" name='flatNo' value={form.flatNo} onChange={handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -142,13 +169,13 @@ export const Checkout = () => {
                                         <div className='w-6/12 m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Village,Area, Street</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Area" type="text" name='area' value={form.area} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Area" type="text" name='area' value={form.area} onChange={handleChange} required />
                                             </div>
                                         </div>
                                         <div className='w-6/12 m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Landmark</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Landmark" type="text" name='landmark' value={form.landmark} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Landmark" type="text" name='landmark' value={form.landmark} onChange={handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -158,13 +185,13 @@ export const Checkout = () => {
                                         <div className='w-6/12 m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Town/city</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Town/City" type="text" name='townCity' value={form.townCity} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Town/City" type="text" name='townCity' value={form.townCity} onChange={handleChange} required />
                                             </div>
                                         </div>
                                         <div className='w-6/12 m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Pincode</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Pincode" type="text" name='pincode' value={form.pincode} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Pincode" type="text" name='pincode' value={form.pincode} onChange={handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -174,13 +201,13 @@ export const Checkout = () => {
                                         <div className='w-6/12 m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">State</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your State" type="text" name='state' value={form.state} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your State" type="text" name='state' value={form.state} onChange={handleChange} required />
                                             </div>
                                         </div>
                                         <div className='w-6/12 m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Country</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Country" type="text" name='country' value={form.country} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Enter your Country" type="text" name='country' value={form.country} onChange={handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +217,7 @@ export const Checkout = () => {
                                         <div className='w-full m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Phone</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="+91 8123X XXX XXX" type="text" name='mobile' value={form.mobile} onChange={handleChange} />
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="+91 8123X XXX XXX" type="text" name='mobile' value={form.mobile} onChange={handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -230,7 +257,7 @@ export const Checkout = () => {
                                         </div>
                                     </div>
                                     <div class="px-2">
-                                        <button class="block w-full max-w-xs mx-auto border border-transparent bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 text-white rounded-md px-5 py-2 font-semibold">APPLY</button>
+                                        <button class="block w-full max-w-xs mx-auto border border-transparent bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 text-white rounded-md px-5 py-2 font-semibold" onClick={() => setDiscountCode('Anandak07')}>APPLY</button>
                                     </div>
                                 </div>
                             </div>
@@ -262,24 +289,35 @@ export const Checkout = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 text-gray-800 font-light mb-6">
-                                <div class="w-full flex mb-3 items-center">
-                                    <div class="w-32">
-                                        <span class="text-gray-600 font-semibold">Contact</span>
+                            {Object.keys(details).length ?
+                                <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 text-gray-800 font-light mb-6">
+                                    <div class="w-full flex mb-3 items-center">
+                                        <div class="w-32">
+                                            <span class="text-gray-600 font-semibold">Name</span>
+                                        </div>
+
+                                        <div class="flex-grow pl-3">
+                                            <span>{details.name}</span>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow pl-3">
-                                        <span>Scott Windon</span>
+                                    <div class="w-full flex mb-3 items-center">
+                                        <div class="w-32">
+                                            <span class="text-gray-600 font-semibold">Contact</span>
+                                        </div>
+
+                                        <div class="flex-grow pl-3">
+                                            <span>{details.mobile}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="w-full flex items-center">
-                                    <div class="w-32">
-                                        <span class="text-gray-600 font-semibold">Billing Address</span>
+                                    <div class="w-full flex items-center">
+                                        <div class="w-32">
+                                            <span class="text-gray-600 font-semibold">Billing Address</span>
+                                        </div>
+                                        <div class="flex-grow pl-3">
+                                            <span>{details.area} {details.flatNo} {details.landmark} {details.townCity} - {details.pincode} ,{details.state}</span>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow pl-3">
-                                        <span>123 George Street, Sydney, NSW 2000 Australia</span>
-                                    </div>
-                                </div>
-                            </div>
+                                </div> : <></>}
                             <div>
                                 <button onClick={() => checkoutHandler(totalPriceOfAllProducts + 50)} class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1" ></i> PAY NOW</button>
                             </div>

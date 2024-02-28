@@ -6,7 +6,7 @@ const items = [
     { id: 3, title: 'User Interface Designer', department: 'Design', type: 'Full-time', location: 'Remote' },
 ]
 
-export const Pagination = ({ currentPage, setCurrentPage, totalPages, indexOfFirstProduct, indexOfLastProduct }) => {
+export const Pagination = ({ currentPage, setCurrentPage, totalPages, currentProducts, indexOfFirstProduct, indexOfLastProduct }) => {
     return (
         <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div className="flex flex-1 justify-between sm:hidden">
@@ -29,7 +29,7 @@ export const Pagination = ({ currentPage, setCurrentPage, totalPages, indexOfFir
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
                     <p className="text-sm text-gray-700">
-                        Showing <span className="font-medium">{indexOfFirstProduct+1}</span> to <span className="font-medium">{indexOfLastProduct < 100 ? indexOfLastProduct:100}</span> of{' '}
+                        Showing <span className="font-medium">{indexOfFirstProduct + 1}</span> to <span className="font-medium">{((currentPage - 1) * 12) + currentProducts.length}</span> of{' '}
                         <span className="font-medium">100</span> results
                     </p>
                 </div>
@@ -41,15 +41,18 @@ export const Pagination = ({ currentPage, setCurrentPage, totalPages, indexOfFir
                             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                         >
                             <span >Previous</span>
-                            {/* <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" /> */}
                         </button>
+                        <div
+                            className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                        >
+                            {currentPage}
+                        </div>
                         <button
                             disabled={currentPage >= totalPages}
                             onClick={() => (setCurrentPage(currentPage + 1))}
-                            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                            className=" relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                         >
                             <span>Next</span>
-                            {/* <ChevronRightIcon className="h-5 w-5" aria-hidden="true" /> */}
                         </button>
                     </nav>
                 </div>

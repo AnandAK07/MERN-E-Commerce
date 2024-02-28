@@ -22,15 +22,15 @@ export const Product = ({ currentProducts }) => {
                             </div>
                             <div className='flex align-center justify-between'>
                                 <h3 className="mt-4 text-sm text-gray-700">{product.title}</h3>
-                                <h4 className="mt-4 text-sm text-gray-700">{product.brand}</h4>
+                                {/* <h4 className="mt-4 text-sm text-gray-700">{product.brand}</h4> */}
                             </div>
                             <div className='flex justify-between'>
                                 <p className="text-lg font-medium text-gray-900">₹{product.price}</p>
-                                <p className="line-through text-lg font-medium text-gray-400">₹{Math.round((product.price) / (1 - (product.discountPercentage / 100)))}</p>
-                                <p className='text-sm mt-1 font-medium text-green-600'>
+                                {/* <p className="line-through text-lg font-medium text-gray-400">₹{Math.round((product.price) / (1 - (product.discountPercentage / 100)))}</p> */}
+                                {/* <p className='text-sm mt-1 font-medium text-green-600'>
                                     {Math.round(product.discountPercentage)}% off
-                                </p>
-                                <p>{product.rating}</p>
+                                </p> */}
+                                {/* <p>{product.rating}</p> */}
                             </div>
                         </Link>
                     ))}

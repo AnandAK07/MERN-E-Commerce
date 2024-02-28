@@ -4,37 +4,15 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCartProduct, removeFromCartProduct, updateCartProduct } from '../../redux/cartReducer/action'
-import { Link } from 'react-router-dom'
-const products = [
-    {
-        id: 1,
-        name: 'Throwback Hip Bag',
-        href: '#',
-        color: 'Salmon',
-        price: '$90.00',
-        quantity: 1,
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-        imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-    },
-    {
-        id: 2,
-        name: 'Medium Stuff Satchel',
-        href: '#',
-        color: 'Blue',
-        price: '$32.00',
-        quantity: 1,
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-        imageAlt:
-            'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-    },
-    // More products...
-]
+import { Link, useNavigate } from 'react-router-dom'
+
 
 export const Cart = () => {
     const { cart } = useSelector((store) => store.cartReducer)
     console.log(cart)
-   
 
+
+    const navigate = useNavigate();
     const dispatch = useDispatch()
 
     // Calculate total price for all products
@@ -61,7 +39,7 @@ export const Cart = () => {
         }
     }
 
-    
+   
     useEffect(() => {
         getCartProduct(dispatch)
     }, [])
@@ -71,8 +49,8 @@ export const Cart = () => {
             <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
                 <div class="rounded-lg md:w-2/3">
                     {cart?.map((product) => (
-                        <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-                            <img src={product.thumbnail} alt="product-image" class="w-full rounded-lg sm:w-40" />
+                        <div class="justify-between overflow-hidden h-52  mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                            <img src={product.thumbnail} alt={product.title} class="object-cover object-center w-full rounded-lg sm:w-40" />
                             <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                                 <div class="mt-5 sm:mt-0">
                                     <h2 class="text-lg font-bold text-gray-900">{product.title}</h2>
@@ -80,7 +58,7 @@ export const Cart = () => {
                                 </div>
                                 <div class="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                                     <div class="flex items-center border-gray-100">
-                                        <button className='focus:outline-none' disabled={product.quantity ===1?true:false} onClick={() => {
+                                        <button className='focus:outline-none' disabled={product.quantity === 1 ? true : false} onClick={() => {
                                             if (product.quantity > 1) {
                                                 handleUpdate(product.productId, -1);
                                             }

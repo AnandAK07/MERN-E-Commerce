@@ -88,6 +88,7 @@ export const CategoryFilters = () => {
     const dispatch = useDispatch();
     const { product, loading, success, error } = useSelector((store) => store.productReducer)
 
+    console.log(product, 'p')
 
     const filteredProducts = product.filter(product => {
         const stockMatch = stock === '' || (stock === 'in_stock' && product.stock >= 1) || (stock === 'out_of_stock' && product.stock < 1);
@@ -124,7 +125,7 @@ export const CategoryFilters = () => {
     const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
     const totalPages = Math.ceil(product.length / 12);
-   
+
 
     // Define your handleCategory function
     const handleCategory = (categoryValue, isChecked) => {
@@ -149,8 +150,8 @@ export const CategoryFilters = () => {
 
     console.log(range, 'r', discount, 'd', stock, 's')
 
-    const apiUrl = process.env.REACT_APP_API_URL;
-   
+    
+
 
 
     useEffect(() => {
@@ -231,7 +232,7 @@ export const CategoryFilters = () => {
                                                             {section.options.map((option, optionIdx) => (
                                                                 <div key={option.value} className="flex items-center">
                                                                     <input
-
+                                                                        onChange={e => handleCategory(option.value, e.target.checked)}
                                                                         id={`filter-mobile-${section.id}-${optionIdx}`}
                                                                         name={`${section.id}[]`}
                                                                         defaultValue={option.value}
@@ -300,7 +301,7 @@ export const CategoryFilters = () => {
                 </Dialog>
             </Transition.Root>
 
-            <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <main className="mx-16 max-w-8xl px-4 sm:px-6 lg:px-8">
                 <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-8">
                     <h1 className="text-4xl font-bold tracking-tight text-gray-900">Products</h1>
 
@@ -466,7 +467,7 @@ export const CategoryFilters = () => {
                     </div>
                 </section>
             </main>
-            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} indexOfFirstProduct={indexOfFirstProduct} indexOfLastProduct={indexOfLastProduct}/>
+            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} currentProducts={currentProducts} indexOfFirstProduct={indexOfFirstProduct} indexOfLastProduct={indexOfLastProduct} />
         </>
     )
 }
