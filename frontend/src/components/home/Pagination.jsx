@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { FaGreaterThan, FaLessThan } from "react-icons/fa6";
-const PaginationExample = () => {
+const Pagination = () => {
     const [products, setProducts] = useState([])
 
 
@@ -53,17 +53,17 @@ const PaginationExample = () => {
         return products.slice(startIndex, endIndex).map((item, index) => (
             <div key={index} className={`m-5 col-span-${itemsPerPage.perRow}`}>
                 {/* Your div structure goes here */}
-                <a className="group m-5">
+                <div className="group">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                         <img
                             src={item.thumbnail}
-                            className="h-100 p-2 object-cover object-center group-hover:opacity-75"
+                            className="h-100 object-cover object-center group-hover:opacity-75"
+                            alt={item.title}
                         />
                     </div>
                     {/* <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3> */}
                     {/* <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p> */}
-                </a>
-
+                </div>
             </div>
         ));
     };
@@ -97,11 +97,11 @@ const PaginationExample = () => {
 
 
             {/* Pagination controls */}
-            <div style={{display:'flex', justifyContent:'flex-end'}}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button className='bg-black p-4' onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                    <FaLessThan className='text-white'/>
+                    <FaLessThan className='text-white' />
                 </button>
-                <span style={{ display: 'flex', alignItems: 'center', margin:'1rem'}}>{`Page ${currentPage} of ${totalPages}`}</span>
+                <span style={{ display: 'flex', alignItems: 'center', margin: '1rem' }}>{`Page ${currentPage} of ${totalPages}`}</span>
                 <button className='bg-black p-4' onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                     <FaGreaterThan className='text-white' />
                 </button>
@@ -110,4 +110,4 @@ const PaginationExample = () => {
     );
 };
 
-export default PaginationExample;
+export default Pagination;

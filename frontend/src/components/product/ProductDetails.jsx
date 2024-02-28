@@ -87,10 +87,6 @@ export const ProductDetails = ({ id }) => {
     useEffect(() => {
         dispatch(getSingleProduct(id))
     }, [])
-
-    if (loading) {
-        return <h1>Loading....</h1>
-    }
     return (
         <>
             {singleProduct &&

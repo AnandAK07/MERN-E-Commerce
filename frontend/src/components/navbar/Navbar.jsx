@@ -1,16 +1,10 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Cart } from '../cart/Cart'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { IoCartOutline } from "react-icons/io5";
 import { BsCart } from "react-icons/bs";
-import { HiOutlineShoppingCart } from "react-icons/hi";
 import { useDispatch, useSelector } from 'react-redux'
-import { getCartProduct } from '../../redux/cartReducer/action'
 import { Loading } from '../Loading'
-import { Failure } from '../Failure'
 import { logout } from '../../redux/authReducer/action'
 
 const user = {
@@ -46,12 +40,8 @@ export const Navbar = () => {
     const handleLogout = () => {
         logout(dispatch)
         localStorage.clear('e-token')
-        // dispatch
     }
 
-    if (loading) {
-        return <Loading />
-    }
 
     return (
 
@@ -229,8 +219,6 @@ export const Navbar = () => {
                         </>
                     )}
                 </Disclosure>
-
-                {/* <Cart open={openCart} setOpen={setOpenCart} /> */}
             </div>
         </>
     )

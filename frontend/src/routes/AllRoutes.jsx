@@ -20,7 +20,7 @@ export const AllRoutes = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/product' element={<Suspense fallback={<Loading />}><PrivateRoute><ProductPage /></PrivateRoute></Suspense>} />
-      <Route path='/product/:id' element={<PrivateRoute><PrivateRoute><ProductDetailsPage /></PrivateRoute></PrivateRoute>} />
+      <Route path='/product/:id' element={<Suspense fallback={<Loading />}><PrivateRoute><ProductDetailsPage /></PrivateRoute></Suspense>} />
       <Route path='/checkout' element={<Suspense fallback={<Loading />}><PrivateRoute><CheckoutPage /></PrivateRoute></Suspense>} />
       <Route path='/cart' element={<Suspense fallback={<Loading />}><PrivateRoute><CartPage /></PrivateRoute></Suspense>} />
       <Route path='/success' element={<Success />} />
