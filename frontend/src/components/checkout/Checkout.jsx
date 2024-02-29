@@ -16,15 +16,17 @@ export const Checkout = () => {
         country: '',
         mobile: '',
     })
+    const [addressRes, addressResSet] = useState(null)
     const [details, setDetails] = useState({})
-    const [discountCode,setDiscountCode]=useState('');
-    const [total,setTotal]=useState(0)
+    const [discountCode, setDiscountCode] = useState('');
+    const [total, setTotal] = useState(false)
 
     const dispatch = useDispatch()
     const { cart } = useSelector((store) => store.cartReducer)
 
 
 
+    // console.log(addressRes, 'ueui')
     // Calculate total price for all products
     const totalPriceOfAllProducts = cart.reduce((total, product) => {
         return total + (product.price * product.quantity);
@@ -52,6 +54,9 @@ export const Checkout = () => {
                 },
                 data: form // Sending form data as the request body
             });
+            if (address) {
+                addressResSet(address);
+            }
             if (address) {
                 setDetails(address);
                 toast.success('🦄 Address added successfully!', {
@@ -83,14 +88,39 @@ export const Checkout = () => {
         }
     }
 
-    const checkoutHandler = async (amount) => {
-        if (discountCode ==='Anandak07'){
-            setTotal((amount/5));
+    // Calculate the reduction amount(5 %)
+    const reduction_percent = 5
+    var reduction_amount = totalPriceOfAllProducts * (reduction_percent / 100)
+
+    const handleDiscount = () => {
+        console.log(discountCode, 'discount');
+        if (discountCode === discountCode) {
+            setTotal(true);
         }
+    }
+
+
+    const checkoutHandler = async (amount) => {
+
         const token = localStorage.getItem('e-token');
         const productids = cart.map((product, id) => {
             return product.productId;
         }, [])
+
+        if (!addressRes) {
+            toast.error('🦄 Error while Adding Address!', {
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
+            return;
+        }
 
 
         const { data: { order } } = await axios({
@@ -148,7 +178,7 @@ export const Checkout = () => {
                                         <div className='w-full m-2'>
                                             <label class="text-gray-600 font-semibold text-lg mb-2 ml-1">Full Name</label>
                                             <div>
-                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" name='name' value={form.name} onChange={handleChange} required/>
+                                                <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" name='name' value={form.name} onChange={handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -253,11 +283,11 @@ export const Checkout = () => {
                                     <div class="flex-grow px-2 lg:max-w-xs">
                                         <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Discount code</label>
                                         <div>
-                                            <input class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="XXXXXX" type="text" />
+                                            <input class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="XXXXXX" type="text" value={discountCode} onChange={(e) => setDiscountCode(e.target.value)} />
                                         </div>
                                     </div>
                                     <div class="px-2">
-                                        <button class="block w-full max-w-xs mx-auto border border-transparent bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 text-white rounded-md px-5 py-2 font-semibold" onClick={() => setDiscountCode('Anandak07')}>APPLY</button>
+                                        <button class="block w-full max-w-xs mx-auto border border-transparent bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 text-white rounded-md px-5 py-2 font-semibold" onClick={() => handleDiscount()}>APPLY</button>
                                     </div>
                                 </div>
                             </div>
@@ -285,7 +315,7 @@ export const Checkout = () => {
                                         <span class="text-gray-600">Total</span>
                                     </div>
                                     <div class="pl-3">
-                                        <span class="font-semibold text-gray-400 text-sm">IN</span> <span class="font-semibold">₹{totalPriceOfAllProducts + 50}</span>
+                                        <span class="font-semibold text-gray-400 text-sm">IN</span> <span class="font-semibold">₹{total ? Math.round(totalPriceOfAllProducts - (totalPriceOfAllProducts * 0.1)) + 50 : totalPriceOfAllProducts + 50}</span>
                                     </div>
                                 </div>
                             </div>
@@ -319,7 +349,7 @@ export const Checkout = () => {
                                     </div>
                                 </div> : <></>}
                             <div>
-                                <button onClick={() => checkoutHandler(totalPriceOfAllProducts + 50)} class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1" ></i> PAY NOW</button>
+                                <button onClick={() => checkoutHandler(total ? Math.round(totalPriceOfAllProducts - (totalPriceOfAllProducts * 0.1)) + 50 : totalPriceOfAllProducts + 50)} class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1" ></i> PAY NOW</button>
                             </div>
                         </div>
                     </div>

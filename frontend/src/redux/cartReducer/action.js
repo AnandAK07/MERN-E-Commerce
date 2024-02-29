@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ADD_TO_CART_FAILURE, ADD_TO_CART_LOADING, ADD_TO_CART_SUCCESS, GET_TO_CART_FAILURE, GET_TO_CART_LOADING, GET_TO_CART_SUCCESS } from "./actionType";
+import { Bounce, toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 
@@ -19,6 +20,19 @@ export const addToCart = (id) => async (dispatch) => {
             }
         )
         console.log(res.data)
+        if (res.data) {
+            toast.success('🦄 Address added successfully!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
+        }
         dispatch({ type: ADD_TO_CART_SUCCESS })
     } catch (error) {
         dispatch({ type: ADD_TO_CART_FAILURE })
