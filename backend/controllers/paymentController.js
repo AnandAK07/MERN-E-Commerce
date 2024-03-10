@@ -42,6 +42,7 @@ const verification=async(req,res)=>{
             }
         );
 
+        
         res.redirect(`${process.env.REACT_URL}/success?payment_id=${razorpay_payment_id}`)
         return;
     } else {

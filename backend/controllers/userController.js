@@ -1690,14 +1690,9 @@ const login = async (req, res) => {
 
     try {
         const { email, password } = req.body
-        // console.log({ email, password })
         const user = await userModel.findOne({ email: email });
-        // const user=users[0]
-        // console.log(user)
         const userId = user._id.toString()
-        // console.log(userId)
         const hash = user.password
-        // console.log(hash)
 
         bcrypt.compare(password, hash, function (err, result) {
             if (err) {
@@ -1707,7 +1702,7 @@ const login = async (req, res) => {
             if (result) {
                 const token = jwt.sign({ userId: userId }, process.env.SECRETE_KEY);
                 console.log('Token generated:', token)
-                return res.status(200).send({ token: token })
+                return res.status(200).send({ token: token, username: user.name ,email:user.email})
             } else {
                 return res.status(401).send({ message: 'Authentication failed. Invalid password.' })
             }

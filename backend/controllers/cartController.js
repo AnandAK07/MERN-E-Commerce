@@ -83,7 +83,7 @@ const updateQuantity = async (req, res) => {
         )
 
         if (cartItem) {
-            if (update ==- 1) {
+            if (update == - 1) {
                 if (cartItem.quantity > 1) {
                     cartItem.quantity -= 1;
                 }
@@ -125,4 +125,15 @@ const removeProduct = async (req, res) => {
     }
 }
 
-module.exports = { addProduct, getAllProducts, removeProduct, updateQuantity }
+const removeAllProduct = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const user = await userModel.findByIdAndUpdate(userId, { $set:{cart:[]}});
+        res.status(200).json({message:'Successfully removed all products'});
+    } catch (error) {
+        console.log('Error removing product from cart:', error);
+        res.status(500).json({ error: 'An error occured' })
+    }
+}
+
+module.exports = { addProduct, getAllProducts, removeProduct, updateQuantity, removeAllProduct }
