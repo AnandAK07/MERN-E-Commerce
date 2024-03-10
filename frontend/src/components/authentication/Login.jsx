@@ -5,6 +5,7 @@ import { store } from '../../redux/store';
 import { login } from '../../redux/authReducer/action';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loading } from '../Loading';
+import { Bounce, toast } from 'react-toastify';
 
 export const Login = () => {
     const [form, setForm] = useState({
@@ -27,20 +28,26 @@ export const Login = () => {
     }
 
     if (isAuth) {
+        toast.success('🦄 Login successfull!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+        });
         navigate('/')
     }
     return (
-        <>
+        <div className='my-12'>
             {loading ? <Loading /> :
-                <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                <div className="flex min-h-full flex-1 flex-col justify-center py-14 px-6 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                        <img
-                            className="mx-auto h-10 w-auto"
-                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                            alt="Your Company"
-                        />
                         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Login to your account
+                            Login
                         </h2>
                     </div>
 
@@ -48,7 +55,7 @@ export const Login = () => {
                         <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Email address
+                                    Email
                                 </label>
                                 <div className="mt-2">
                                     <input
@@ -69,11 +76,6 @@ export const Login = () => {
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                                         Password
                                     </label>
-                                    <div className="text-sm">
-                                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                            Forgot password?
-                                        </a>
-                                    </div>
                                 </div>
                                 <div className="mt-2">
                                     <input
@@ -108,6 +110,6 @@ export const Login = () => {
                     </div>
                 </div>
             }
-        </>
+        </div>
     )
 }

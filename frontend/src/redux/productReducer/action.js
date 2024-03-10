@@ -1,7 +1,6 @@
 import axios from "axios"
 import { GET_DATA_FAILURE, GET_DATA_LOADING, GET_DATA_SUCCESS, GET_SINGLE_DATA_FAILURE, GET_SINGLE_DATA_LOADING, GET_SINGLE_DATA_SUCCESS } from "./actionType";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const getProductRequest = () => {
     return { type: GET_DATA_LOADING }
@@ -19,10 +18,9 @@ export const getAllProducts = async (dispatch) => {
     try {
         dispatch({ type: GET_DATA_LOADING })
         const token = localStorage.getItem('e-token')
-        console.log(token)
         const data = await axios({
             method: 'get',
-            url: `${apiUrl}/product`,
+            url: `${process.env.REACT_APP_API_URL}/product`,
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -40,7 +38,7 @@ export const getSingleProduct = (id) => async (dispatch) => {
         dispatch({ type: GET_SINGLE_DATA_LOADING });
         const res = await axios({
             method: 'get',
-            url: `${apiUrl}/product/${id}`,
+            url: `${process.env.REACT_APP_API_URL}/product/${id}`,
             headers: {
                 Authorization: `Bearer ${token}`
             }

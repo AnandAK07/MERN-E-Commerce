@@ -5,7 +5,6 @@ import { FaGreaterThan, FaLessThan } from "react-icons/fa6";
 const Pagination = () => {
     const [products, setProducts] = useState([])
 
-
     const [currentPage, setCurrentPage] = useState(1);
     const data = Array.from({ length: 12 }).map((_, index) => `Item ${index + 1}`);
 
@@ -47,7 +46,6 @@ const Pagination = () => {
         setCurrentPage(page);
     };
 
-    console.log(products, 'p')
     // Render the divs for the current page
     const renderDivs = () => {
         return products.slice(startIndex, endIndex).map((item, index) => (
@@ -72,11 +70,8 @@ const Pagination = () => {
 
     const handleProduct = async () => {
         try {
-            const data = await axios(`${process.env.REACT_APP_DUMMY_JSON_URL}/products`)
-            // console.log(data.data)
-            // console.log(data.data.products)
-            setProducts(data.data.products);
-            // console.log(data.data.products)
+            const {data} = await axios(`${process.env.REACT_APP_DUMMY_JSON_URL}/products`)
+            setProducts(data.products);
         } catch (error) {
             console.log(error)
         }

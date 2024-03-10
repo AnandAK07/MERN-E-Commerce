@@ -4,9 +4,6 @@ import Pagination from "../components/home/Pagination"
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
-
-
 const HomePage = () => {
   const [products, setProducts] = useState([])
 
@@ -14,16 +11,12 @@ const HomePage = () => {
   const handleProduct = async () => {
     try {
       const data = await axios(`${process.env.REACT_APP_DUMMY_JSON_URL}/products`)
-      // console.log(data.data)
-      // console.log(data.data.products)
       setProducts(data.data.products);
-      console.log(data.data.products)
     } catch (error) {
       console.log(error)
     }
   }
 
-  console.log(products, 'home')
   useEffect(() => {
     handleProduct();
   }, [])

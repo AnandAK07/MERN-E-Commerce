@@ -5,7 +5,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { Product } from './Product'
 import { singleFilter } from './filterData'
-import { Pagination } from './Pagination'
+import {Pagination}  from '../product/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from '../../redux/productReducer/action'
 
@@ -13,17 +13,6 @@ const sortOptions = [
     { name: 'Best Rating', href: '#', current: false },
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
-]
-// const subCategories = [
-//     { name: 'Totes', href: '#' },
-//     { name: 'Backpacks', href: '#' },
-//     { name: 'Travel Bags', href: '#' },
-//     { name: 'Hip Bags', href: '#' },
-//     { name: 'Laptop Sleeves', href: '#' },
-// ]
-const subCategories = [
-    // { name: 'smartphones'},
-    // { name: 'laptops' },
 ]
 
 const filters = [
@@ -88,7 +77,6 @@ export const CategoryFilters = () => {
     const dispatch = useDispatch();
     const { product, loading, success, error } = useSelector((store) => store.productReducer)
 
-    console.log(product, 'p')
 
     const filteredProducts = product.filter(product => {
         const stockMatch = stock === '' || (stock === 'in_stock' && product.stock >= 1) || (stock === 'out_of_stock' && product.stock < 1);
@@ -148,10 +136,6 @@ export const CategoryFilters = () => {
         }
     }
 
-    console.log(range, 'r', discount, 'd', stock, 's')
-
-    
-
 
 
     useEffect(() => {
@@ -200,17 +184,6 @@ export const CategoryFilters = () => {
                                 {/* Filters */}
                                 <form className="mt-4 border-t border-gray-200">
                                     <h3 className="sr-only">Categories</h3>
-                                    <ul role="list" className="px-2 py-3 font-medium text-gray-900">
-                                        {subCategories.map((category) => (
-                                            <li key={category.name}>
-                                                <a href={category.href} className="block px-2 py-3">
-                                                    {category.name}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-
                                     {filters.map((section) => (
                                         <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                                             {({ open }) => (
@@ -301,9 +274,9 @@ export const CategoryFilters = () => {
                 </Dialog>
             </Transition.Root>
 
-            <main className="mx-16 max-w-8xl px-4 sm:px-6 lg:px-8">
+            <main className="min-h-screen mx-16 max-w-8xl px-4 sm:px-6 lg:px-8">
                 <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-8">
-                    <h1 className="text-4xl font-bold tracking-tight text-gray-900">Products</h1>
+                    <h1 className="text-4xl font-bold tracking-tight text-gray-900 mr-5">Products</h1>
 
                     <div className="flex items-center">
                         <Menu as="div" className="relative inline-block text-left">

@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
@@ -7,13 +7,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Loading } from '../Loading'
 import { logout } from '../../redux/authReducer/action'
 
-const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+// const user = {
+//     name: 'Tom Cook',
+//     email: 'tom@example.com',
+//     imageUrl:
+//         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+// }
 const navigation = [
+    { title: 'Home', path: '/' },
+    { title: 'Contact Us', path: '/contactus' }
+]
+
+const logedNavigation = [
     { title: 'Home', path: '/' },
     { title: 'Product', path: '/product' },
     { title: 'Contact Us', path: '/contactus' }
@@ -30,18 +35,18 @@ function classNames(...classes) {
 
 
 export const Navbar = () => {
+    const token = localStorage.getItem('e-token');
+    const user = JSON.parse(localStorage.getItem('user'));
 
-
-    const { token, isAuth, loading, error, success } = useSelector((store) => store.authReducer)
-    console.log(token, isAuth, success)
+    const { isAuth, loading, error, success } = useSelector((store) => store.authReducer)
 
     const dispatch = useDispatch();
 
     const handleLogout = () => {
         logout(dispatch)
         localStorage.clear('e-token')
+        localStorage.clear('user')
     }
-
 
     return (
 
@@ -64,31 +69,49 @@ export const Navbar = () => {
                                         </div>
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
-                                                {navigation.map((item) => (
-                                                    <Link
-                                                        key={item.title}
-                                                        to={item.path}
-                                                        className={classNames(
-                                                            item.current
-                                                                ? 'bg-gray-900 text-white'
-                                                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                            'rounded-md px-3 py-2 text-sm font-medium'
-                                                        )}
-                                                        aria-current={item.current ? 'page' : undefined}
-                                                    >
-                                                        {item.title}
-                                                    </Link>
-                                                ))}
+                                                {token ? <>
+                                                    {logedNavigation.map((item) => (
+                                                        <Link
+                                                            key={item.title}
+                                                            to={item.path}
+                                                            className={classNames(
+                                                                item.current
+                                                                    ? 'bg-gray-900 text-white'
+                                                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                                'rounded-md px-3 py-2 text-sm font-medium'
+                                                            )}
+                                                            aria-current={item.current ? 'page' : undefined}
+                                                        >
+                                                            {item.title}
+                                                        </Link>
+                                                    ))}
+                                                </>
+                                                    : <>
+                                                        {navigation.map((item) => (
+                                                            <Link
+                                                                key={item.title}
+                                                                to={item.path}
+                                                                className={classNames(
+                                                                    item.current
+                                                                        ? 'bg-gray-900 text-white'
+                                                                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                                    'rounded-md px-3 py-2 text-sm font-medium'
+                                                                )}
+                                                                aria-current={item.current ? 'page' : undefined}
+                                                            >
+                                                                {item.title}
+                                                            </Link>
+                                                        ))}
+                                                    </>}
                                             </div>
                                         </div>
                                     </div>
                                     <div className="hidden md:block">
                                         <div className="ml-4 flex items-center md:ml-6">
                                             <button
-                                            >
-                                                <Link to={'/cart'}>
-                                                    <BsCart className="text-gray-400 hover:text-white text-2xl text-bold" />
-                                                </Link>
+                                            >{token ? <Link to={'/cart'}>
+                                                <BsCart className="text-gray-400 hover:text-white text-2xl text-bold" />
+                                            </Link> : <></>}
                                             </button>
 
                                             <Menu as="div" className="relative ml-3">
@@ -96,7 +119,7 @@ export const Navbar = () => {
                                                     <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                         <span className="absolute -inset-1.5" />
                                                         <span className="sr-only">Open user menu</span>
-                                                        <img className="h-8 w-8 rounded-full" src={`https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTM5LnBuZw.png`} alt="" />
+                                                        {token ? <><img className="h-8 w-8 rounded-full" src={`https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTM5LnBuZw.png`} alt="" /><h1 className='mx-2 text-white'>{user.name}</h1></> : <img className='h-8 w-8' src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Shutdown_button_green.svg/2048px-Shutdown_button_green.svg.png" alt="" />}
                                                     </Menu.Button>
                                                 </div>
                                                 <Transition
@@ -110,7 +133,7 @@ export const Navbar = () => {
                                                 >
                                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 
-                                                        {isAuth ? <Menu.Item >
+                                                        {token ? <Menu.Item >
                                                             {({ active }) => (
                                                                 <Link
                                                                     // to={'/signup'}
@@ -159,46 +182,60 @@ export const Navbar = () => {
 
                             <Disclosure.Panel className="md:hidden">
                                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                                    {navigation.map((item) => (
-                                        <Disclosure.Button
-                                            key={item.title}
-                                            className={classNames(
-                                                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                'block rounded-md px-3 py-2 text-base font-medium'
-                                            )}
-                                            aria-current={item.current ? 'page' : undefined}
-                                        >
-                                            <Link to={item.path}>
-                                                {item.title}
-                                            </Link>
-                                        </Disclosure.Button>
-                                    ))}
+                                    {token ? <>
+                                        {logedNavigation.map((item) => (
+                                            <Disclosure.Button
+                                                key={item.title}
+                                                className={classNames(
+                                                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                    'block rounded-md px-3 py-2 text-base font-medium'
+                                                )}
+                                                aria-current={item.current ? 'page' : undefined}
+                                            >
+                                                <Link to={item.path}>
+                                                    {item.title}
+                                                </Link>
+                                            </Disclosure.Button>
+                                        ))}
+                                    </> : <>
+                                        {navigation.map((item) => (
+                                            <Disclosure.Button
+                                                key={item.title}
+                                                className={classNames(
+                                                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                    'block rounded-md px-3 py-2 text-base font-medium'
+                                                )}
+                                                aria-current={item.current ? 'page' : undefined}
+                                            >
+                                                <Link to={item.path}>
+                                                    {item.title}
+                                                </Link>
+                                            </Disclosure.Button>
+                                        ))}
+                                    </>}
                                 </div>
                                 <div className="border-t border-gray-700 pb-3 pt-4">
                                     <div className="flex items-center px-5">
-                                        <div className="flex-shrink-0">
+                                        {token ? <><div className="flex-shrink-0">
                                             <img className="h-10 w-10 rounded-full" src={`https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTM5LnBuZw.png`} alt="" />
                                         </div>
-                                        <div className="ml-3">
-                                            <div className="text-base font-medium leading-none text-white">{user.name}</div>
-                                            <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
-                                        </div>
+                                            <div className="ml-3">
+                                                <div className="text-base font-medium leading-none text-white">{user.name}</div>
+                                                <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
+                                            </div></> : <></>}
 
                                         <button
                                             // onClick={() => setOpenCart(!openCart)}
                                             type="button"
                                             className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                         >
-                                            <Link to={'/cart'}>
+                                            {token ? <Link to={'/cart'}>
                                                 <BsCart className="text-gray-400 hover:text-white text-xl text-bold" />
-                                            </Link>
-                                            {/* <span className="absolute -inset-1.5" />
-                                            <span className="sr-only">View notifications</span> */}
-                                            {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
+                                            </Link> : <></>}
                                         </button>
                                     </div>
                                     <div className="mt-3 space-y-1 px-2">
-                                        {isAuth ? <Disclosure.Button
+                                        {token ? <Disclosure.Button
                                             as="a"
                                             onClick={() => handleLogout()}
                                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
@@ -212,8 +249,8 @@ export const Navbar = () => {
                                         >
                                             Login
                                         </Disclosure.Button>}
-
                                     </div>
+
                                 </div>
                             </Disclosure.Panel>
                         </>

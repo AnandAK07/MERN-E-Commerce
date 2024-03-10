@@ -41,14 +41,10 @@ export const singleFilter = [
         id: "discount",
         name: "Discount Range",
         options: [
+            { value: "0", label: "0% And Above" },
+            { value: "5", label: "5% And Above" },
             { value: "10", label: "10% And Above" },
-            { value: "20", label: "20% And Above" },
-            { value: "30", label: "30% And Above" },
-            { value: "40", label: "40% And Above" },
-            { value: "50", label: "50% And Above" },
-            { value: "60", label: "60% And Above" },
-            { value: "70", label: "70% And Above" },
-            { value: "80", label: "80% And Above" },
+            { value: "15", label: "15% And Above" },
         ]
     },
     {

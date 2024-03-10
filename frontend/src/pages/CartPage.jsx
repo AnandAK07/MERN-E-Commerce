@@ -3,9 +3,9 @@ import { Cart } from '../components/cart/Cart'
 
 const CartPage = () => {
   return (
-    <>
-        <Cart/>
-    </>
+    <div className='min-h-screen'>
+      <Cart />
+    </div>
   )
 }
 

@@ -18,12 +18,6 @@ export const ProductDetails = ({ id }) => {
 
     const { singleProduct, loading, error, success } = useSelector((store) => store.productReducer)
 
-    // if (status){
-
-    // }else{
-
-    // }
-
     const { brand, category, description, image1, image2, image3, image4, discountPercentage, price, rating, stock, thumbnail, title } = singleProduct
 
 

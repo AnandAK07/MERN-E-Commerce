@@ -21,7 +21,7 @@ export const addToCart = (id) => async (dispatch) => {
         )
         console.log(res.data)
         if (res.data) {
-            toast.success('🦄 Address added successfully!', {
+            toast.success('🦄 Product added successfully!', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -81,11 +81,37 @@ export const removeFromCartProduct = (id) => async (dispatch) => {
                 productId: id
             }
         })
-        console.log(res, 'daciton')
+        // console.log(res, 'daciton')
+        toast.info('🦄 Product removed successfully!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+        });
         // console.log(res.data, 'cavrt')
         // dispatch({ type: GET_TO_CART_SUCCESS, payload: res.data })
     } catch (error) {
         dispatch({ type: GET_TO_CART_FAILURE })
+        console.log(error)
+    }
+}
+
+export const removeAllProductFromCart = async ()=>{
+    const token = localStorage.getItem('e-token');
+    try {
+        const res = await axios({
+            method: 'delete',
+            url: `${apiUrl}/cart/removeall`,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    } catch (error) {
         console.log(error)
     }
 }
