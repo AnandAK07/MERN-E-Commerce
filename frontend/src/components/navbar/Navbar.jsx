@@ -6,6 +6,7 @@ import { BsCart } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux'
 import { Loading } from '../Loading'
 import { logout } from '../../redux/authReducer/action'
+import ecommerceImage from "../../assets/images/e-commerce.webp";
 
 // const user = {
 //     name: 'Tom Cook',
@@ -62,7 +63,7 @@ export const Navbar = () => {
                                             <Link to={'/'}>
                                                 <img
                                                     className="h-12 rounded-3xl object-cover"
-                                                    src="https://p1.hiclipart.com/preview/234/537/305/digital-marketing-ecommerce-shopping-cart-software-online-shopping-drop-shipping-web-design-retail-business-png-clipart.jpg"
+                                                    src={ecommerceImage}
                                                     alt="Your Company"
                                                 />
                                             </Link>
