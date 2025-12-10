@@ -13,7 +13,6 @@ const getAllProducts = async (req, res) => {
 
 const getSingleProduct=async(req,res)=>{
     const {id}=req.params;
-    console.log(id)
     try {
         const product=await productModel.findOne({_id:id});
         return res.status(200).json(product)
@@ -40,7 +39,6 @@ const addSingleProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     const { id } = req.params
-    console.log(id)
     try {
         const product = await productModel.findByIdAndUpdate({ _id: id }, req.body)
         return res.send(product)

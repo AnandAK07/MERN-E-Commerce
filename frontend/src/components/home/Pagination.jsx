@@ -76,7 +76,6 @@ const Pagination = () => {
             console.log(error)
         }
     }
-    // console.log(products, "products")
     useEffect(() => {
         handleProduct();
     }, [])

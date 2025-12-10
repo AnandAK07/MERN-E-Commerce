@@ -19,7 +19,6 @@ export const addToCart = (id) => async (dispatch) => {
                 }
             }
         )
-        console.log(res.data)
         if (res.data) {
             toast.success('🦄 Product added successfully!', {
                 position: "top-center",
@@ -57,7 +56,6 @@ export const updateCartProduct = (id, value) => async (dispatch) => {
                 productId: id
             }
         })
-        // console.log(res.data, 'cavrt')
         // dispatch({ type: GET_TO_CART_SUCCESS, payload: res.data })
     } catch (error) {
         dispatch({ type: GET_TO_CART_FAILURE })
@@ -81,7 +79,6 @@ export const removeFromCartProduct = (id) => async (dispatch) => {
                 productId: id
             }
         })
-        // console.log(res, 'daciton')
         toast.info('🦄 Product removed successfully!', {
             position: "top-center",
             autoClose: 5000,
@@ -93,7 +90,6 @@ export const removeFromCartProduct = (id) => async (dispatch) => {
             theme: "colored",
             transition: Bounce,
         });
-        // console.log(res.data, 'cavrt')
         // dispatch({ type: GET_TO_CART_SUCCESS, payload: res.data })
     } catch (error) {
         dispatch({ type: GET_TO_CART_FAILURE })

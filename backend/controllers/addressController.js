@@ -2,10 +2,8 @@ const addressModel = require('../models/address.model');
 
 const getAddress=async(req,res)=>{
     const {userId}=req.body;
-    console.log('addresj',userId)
     try {
         const address = await addressModel.find({ user_id:userId})
-        console.log(address,'g')
         return res.status(200).send(address)
     } catch (error) {
         console.log(error)
@@ -14,9 +12,7 @@ const getAddress=async(req,res)=>{
 }
 
 const addAddress = async (req, res) => {
-    console.log('cl')
     const {userId,country,name,mobile,flatNo,area,landmark,pincode,townCity,state}=req.body;
-    console.log('adres', userId, country, name, mobile, flatNo, area, landmark, pincode, townCity, state)
     if (!name || !mobile || !flatNo || !area || !landmark || !pincode||!townCity||!state){
         return res.send('Fill all field');
     }
@@ -45,7 +41,6 @@ const editAddress = async (req, res) => {
 const deleteAddress = async (req, res) => {
     const { userId } = req.body;
     const {id} = req.params;
-    console.log(id)
     try {
         const address = await addressModel.findByIdAndDelete({ user_id: userId, _id: id })
         console.log(address)

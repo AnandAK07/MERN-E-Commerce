@@ -1665,7 +1665,6 @@ const addAllProduct = async (req, res) => {
 
 const signup = async (req, res) => {
     const { name, email, password } = req.body
-    console.log({ name, email, password })
     if (!name || !email || !password) {
         return res.status(400).send('Missing required information');
     }
@@ -1676,7 +1675,6 @@ const signup = async (req, res) => {
         }
         try {
             const user = new userModel({ name, email, password: hash })
-            console.log(user)
             user.save();
             return res.status(201).send("Signup successfull")
         } catch (error) {
@@ -1701,7 +1699,6 @@ const login = async (req, res) => {
             }
             if (result) {
                 const token = jwt.sign({ userId: userId }, process.env.SECRETE_KEY);
-                console.log('Token generated:', token)
                 return res.status(200).send({ token: token, username: user.name ,email:user.email})
             } else {
                 return res.status(401).send({ message: 'Authentication failed. Invalid password.' })
