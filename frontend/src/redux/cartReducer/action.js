@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_TO_CART_FAILURE, ADD_TO_CART_LOADING, ADD_TO_CART_SUCCESS, GET_TO_CART_FAILURE, GET_TO_CART_LOADING, GET_TO_CART_SUCCESS } from "./actionType";
+import { ADD_TO_CART_FAILURE, ADD_TO_CART_LOADING, ADD_TO_CART_SUCCESS, GET_TO_CART_FAILURE, GET_TO_CART_LOADING, GET_TO_CART_SUCCESS, REMOVE_TO_CART_FAILURE, REMOVE_TO_CART_LOADING, REMOVE_TO_CART_SUCCESS, UPDATE_TO_CART_FAILURE, UPDATE_TO_CART_LOADING, UPDATE_TO_CART_SUCCESS } from "./actionType";
 import { Bounce, toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -44,7 +44,7 @@ export const addToCart = (id) => async (dispatch) => {
 export const updateCartProduct = (id, value) => async (dispatch) => {
     const token = localStorage.getItem('e-token');
     try {
-        // dispatch({ type: GET_TO_CART_LOADING })
+        dispatch({ type: UPDATE_TO_CART_LOADING })
         const res = await axios({
             method: 'patch',
             url: `${apiUrl}/cart/update`,
@@ -56,9 +56,9 @@ export const updateCartProduct = (id, value) => async (dispatch) => {
                 productId: id
             }
         })
-        // dispatch({ type: GET_TO_CART_SUCCESS, payload: res.data })
+        dispatch({ type: UPDATE_TO_CART_SUCCESS, payload: res.data })
     } catch (error) {
-        dispatch({ type: GET_TO_CART_FAILURE })
+        dispatch({ type: UPDATE_TO_CART_FAILURE })
         console.log(error)
     }
 }
@@ -68,7 +68,7 @@ export const updateCartProduct = (id, value) => async (dispatch) => {
 export const removeFromCartProduct = (id) => async (dispatch) => {
     const token = localStorage.getItem('e-token');
     try {
-        // dispatch({ type: GET_TO_CART_LOADING })
+        dispatch({ type: REMOVE_TO_CART_LOADING })
         const res = await axios({
             method: 'delete',
             url: `${apiUrl}/cart/remove`,
@@ -90,9 +90,9 @@ export const removeFromCartProduct = (id) => async (dispatch) => {
             theme: "colored",
             transition: Bounce,
         });
-        // dispatch({ type: GET_TO_CART_SUCCESS, payload: res.data })
+        dispatch({ type: REMOVE_TO_CART_SUCCESS, payload: res.data })
     } catch (error) {
-        dispatch({ type: GET_TO_CART_FAILURE })
+        dispatch({ type: REMOVE_TO_CART_FAILURE })
         console.log(error)
     }
 }
